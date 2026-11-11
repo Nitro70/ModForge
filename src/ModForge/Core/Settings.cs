@@ -65,12 +65,12 @@ namespace ModForge.Core
         /// <summary>Where "Update templates" downloads from: a packs zip, or a GitHub source zip that contains pack.json.</summary>
         public string PackUrl
         {
-            get { return Get("PackUrl", DefaultPackUrl); }
+            get { string u = Get("PackUrl").Trim(); return u.Length > 0 ? u : DefaultPackUrl; }
             set { Set("PackUrl", value); }
         }
 
-        /// <summary>Empty until the packs are published somewhere. Set it in the app or in settings.json.</summary>
-        public const string DefaultPackUrl = "";
+        /// <summary>This repo's main branch as a zip: Update finds packs/pack.json inside it. Can be changed in the app.</summary>
+        public const string DefaultPackUrl = "https://github.com/Nitro70/ModForge/archive/refs/heads/main.zip";
 
         public List<string> ExtraGames
         {

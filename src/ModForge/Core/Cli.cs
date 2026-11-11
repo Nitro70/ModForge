@@ -29,6 +29,9 @@ namespace ModForge.Core
                             Console.WriteLine("{0,-28} {1,-12} {2}", t.Id, t.Engine, t.Name);
                         Console.WriteLine(pack.Templates.Count + " templates, pack v" + pack.Version + " " + info);
                         return 0;
+                    case "update":
+                        Console.WriteLine(PackUpdater.Update(rest.Count > 0 ? rest[0] : Settings.Load().PackUrl, pack.Version));
+                        return 0;
                     case "scan":
                         foreach (var g in GameScanner.Scan(pack, Settings.Load().ExtraGames).Where(g => g.Installed))
                             Console.WriteLine("{0,-40} {1,-7} {2,-7} {3,-10} {4,-10} {5}", Cut(g.Name, 40), g.Engine, g.Backend, g.EngineVersion, string.Join("+", g.Loaders), g.Path);

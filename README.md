@@ -51,8 +51,10 @@ Templates are small text files with placeholders, composed on your PC. No AI and
 together from parts, so hundreds of combinations cost almost nothing in size.
 
 - A set is built into the exe.
-- **Update:** click the template version in the bottom right corner, paste the address of a pack zip (or a GitHub
-  source zip of a repo that contains `pack.json`), and press Update. A newer pack replaces the built-in one.
+- **Update:** click the template version in the bottom right corner and press Update. It downloads this repo's
+  `main` branch and uses its `packs` folder when `packs/pack.json` has a higher `version` than the set you have. You
+  can paste any other pack zip (or a GitHub source zip of a repo that contains `pack.json`) instead. So new templates
+  reach the app without a new exe: change `packs/`, raise the version in `packs/pack.json`, push.
 - **Your own:** drop template folders into `%LOCALAPPDATA%\ModForge\packs`. They load next to the built-in ones.
   The format is in [docs/PACK-FORMAT.md](docs/PACK-FORMAT.md).
 
@@ -73,6 +75,7 @@ ModForge.exe --cli list
 ModForge.exe --cli scan
 ModForge.exe --cli validate [--packs <folder>] [template-id ...]
 ModForge.exe --cli generate <template-id> --out <folder> [--zip <file>] [--set Name=Value] [--game <game folder>]
+ModForge.exe --cli update [<pack zip url>]
 ```
 
 `validate` renders every template under every option combination, with and without a game, and checks that every
