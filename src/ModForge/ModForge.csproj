@@ -8,7 +8,7 @@
     <Nullable>disable</Nullable>
     <AssemblyName>ModForge</AssemblyName>
     <RootNamespace>ModForge</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Product>ModForge</Product>
     <Description>Starter projects for game mods</Description>
     <ApplicationManifest>app.manifest</ApplicationManifest>
