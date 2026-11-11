@@ -1,0 +1,22 @@
+<prefab version="1.6.0">
+	<!--
+	     What the spawn menu creates. spawn.txt lists this file.
+
+	     1. The name of the outer group must be instance= followed by this file's
+	        own path.
+	     2. Never write two hyphens in a row inside a comment in this file. XML
+	        forbids it, the whole file then fails to parse, and the game reports
+	        nothing.
+
+	     A voxbox is a solid block that needs no model file. size is in voxels,
+	     and one voxel is 0.1 m, so this is a 0.8 m wooden crate. To spawn your
+	     own model instead, save it as spawn\{{ModId}}.vox in this mod and
+	     replace the voxbox line with:
+	         <vox file="MOD/spawn/{{ModId}}.vox"/>
+	-->
+	<group name="instance=MOD/spawn/{{ModId}}.xml" pos="0.0 0.0 0.0" rot="0.0 0.0 0.0">
+		<body dynamic="true">
+			<voxbox pos="-0.4 0.0 -0.4" size="8 8 8" material="wood" color="0.6 0.4 0.2"/>
+		</body>
+	</group>
+</prefab>

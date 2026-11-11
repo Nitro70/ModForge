@@ -1,0 +1,45 @@
+{
+  "id": "vintagestory-mod",
+  "name": "Vintage Story code mod",
+  "engine": "Game specific",
+  "loader": "Built in",
+  "language": "C#",
+  "summary": "A C# mod for Vintage Story: modinfo.json, a ModSystem and an assets folder, following the official mod template.",
+  "description": "A class library the game loads as a code mod. The build puts the dll, modinfo.json and assets together in one folder and zips them, ready for the Mods folder. Needs Vintage Story installed to build, because the game's own dlls are the only source of its API.",
+  "docs": "https://wiki.vintagestory.at/Modding:Getting_Started",
+  "order": 50,
+  "match": { "family": "vintagestory" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "In lowercase without spaces it becomes the mod id, which must never change once people use the mod." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the game's mod manager." },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with Vintagestory.exe. Leave empty to use the VINTAGE_STORY environment variable instead." },
+    { "id": "Tfm", "label": "Target framework", "type": "choice", "default": "net10.0", "group": "Build",
+      "choices": [
+        { "value": "net10.0", "label": "net10.0 (game 1.22 and newer)" },
+        { "value": "net8.0", "label": "net8.0 (game 1.21)" }
+      ],
+      "help": "Must match the .NET version the game runs on." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "SystemClass": "{{ModName|pascal}}ModSystem",
+    "ModId": "{{ModName|flat}}"
+  },
+  "folder": "{{ProjectName}}",
+  "next": [
+    "Open the folder in Visual Studio, Rider or VS Code.",
+    "Build it: dotnet build -c Release",
+    "The mod is bin\\Release\\{{ModId}}_{{Version}}.zip. Copy it to %APPDATA%\\VintagestoryData\\Mods.",
+    "Start the game and look for the mod's lines in %APPDATA%\\VintagestoryData\\Logs\\client-main.log.",
+    "Your code starts in {{SystemClass}}.cs, in Start."
+  ]
+}

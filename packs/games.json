@@ -1,0 +1,25 @@
+{
+  "games": [
+    { "name": "Lethal Company", "appid": "1966720", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "R.E.P.O.", "appid": "3241660", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "PEAK", "appid": "3527290", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Valheim", "appid": "892970", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Content Warning", "appid": "2881650", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Risk of Rain 2", "appid": "632360", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Subnautica", "appid": "264710", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Bopl Battle", "appid": "1686940", "engine": "unity", "backend": "mono", "loader": "BepInEx 5", "notes": "Public matchmaking refuses to start while BepInEx plugins are loaded." },
+    { "name": "Gorilla Tag", "appid": "1533390", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Wobbly Life", "appid": "1211020", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Dyson Sphere Program", "appid": "1366540", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Inscryption", "appid": "1092790", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "ROUNDS", "appid": "1557740", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Trombone Champ", "appid": "1059990", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "ULTRAKILL", "appid": "1229490", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Cult of the Lamb", "appid": "1313140", "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+    { "name": "Among Us", "appid": "945360", "engine": "unity", "backend": "il2cpp", "loader": "BepInEx 6", "notes": "Most mods also use the Reactor framework." },
+    { "name": "Sons Of The Forest", "appid": "1326470", "engine": "unity", "backend": "il2cpp", "notes": "Most mods use RedLoader, a MelonLoader fork." },
+    { "name": "Phasmophobia", "appid": "739630", "engine": "unity", "backend": "il2cpp", "loader": "MelonLoader" },
+    { "name": "BONELAB", "appid": "1592190", "engine": "unity", "backend": "il2cpp", "loader": "MelonLoader" },
+    { "name": "Schedule I", "appid": "3164500", "engine": "unity", "backend": "il2cpp", "loader": "MelonLoader", "notes": "The default branch is IL2CPP; the alternate beta branch is Mono." }
+  ]
+}

@@ -1,0 +1,15 @@
+Put the mod's files in this folder, at the same path they have in the game.
+
+This folder stands for the game's {{UnrealProject}}\Content folder, which Unreal calls /Game/.
+A game asset /Game/Characters/Hero/T_Hero_D is the files
+
+    Characters\Hero\T_Hero_D.uasset
+    Characters\Hero\T_Hero_D.uexp       (and .ubulk when the asset has one)
+
+and its replacement goes here as
+
+    {{PakName}}\{{UnrealProject}}\Content\Characters\Hero\T_Hero_D.uasset
+    {{PakName}}\{{UnrealProject}}\Content\Characters\Hero\T_Hero_D.uexp
+
+The files must be cooked for the game's engine version ({{EngineVersion}}): raw .png or .fbx files do nothing.
+pack.bat leaves this text file out of the pak.

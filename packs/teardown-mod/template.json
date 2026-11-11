@@ -1,0 +1,46 @@
+{
+  "id": "teardown-mod",
+  "name": "Teardown mod",
+  "engine": "Game specific",
+  "loader": "Teardown mods folder",
+  "language": "Lua",
+  "summary": "A Teardown mod folder: a global script, a tool or a spawnable prop, with version 2 scripts that work in multiplayer.",
+  "description": "A folder for Documents\\Teardown\\mods with info.txt and a main.lua written for script version 2, where the server part does the physics and the client part does effects and UI. It uses only models that ship with the game, so it runs before you have made a single voxel.",
+  "docs": "https://teardowngame.com/modding/api.html",
+  "order": 20,
+  "match": { "family": "teardown" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "pattern": "[^\\r\\n]*", "patternHelp": "one line",
+      "help": "Shown in the game's mod list." },
+    { "id": "Kind", "label": "Mod kind", "type": "choice", "default": "global",
+      "choices": [
+        { "value": "global", "label": "Global script (runs in every level)" },
+        { "value": "tool", "label": "Tool (a new item in the player's hands)" },
+        { "value": "spawn", "label": "Spawnable (an object in the spawn menu)" }
+      ] },
+    { "id": "Options", "label": "Options screen", "type": "bool", "default": false, "group": "Features",
+      "showWhen": "Kind != spawn",
+      "help": "An options.lua opened from the mod list in the main menu, with one saved setting." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|flat}}"
+  },
+  "folder": "{{ModName}}",
+  "when": {
+    "prefab": "Kind == tool",
+    "spawn": "Kind == spawn",
+    "spawn.txt": "Kind == spawn",
+    "options.lua": "Options && Kind != spawn"
+  },
+  "next": [
+    "Copy the whole {{ModName}} folder to Documents\\Teardown\\mods (create mods if it is not there).",
+    "Start Teardown (a new or changed mod needs a restart), open Mods and enable {{ModName}} among your local mods.",
+    "Start any level. README.md says what you should see.",
+    "Your code is in main.lua. Check every game function you add against data\\script_defs.lua in the game folder."
+  ]
+}

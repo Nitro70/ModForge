@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "RimWorld", "appid": "294100", "engine": "unity", "backend": "mono", "family": "rimworld",
+      "notes": "Mods are folders under Mods with About\\About.xml. The game loads them itself, no mod loader needed.",
+      "folders": ["RimWorld"] }
+  ]
+}

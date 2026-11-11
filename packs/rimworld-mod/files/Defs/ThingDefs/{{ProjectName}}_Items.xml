@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    An example item. ParentName="ResourceBase" takes everything an ordinary stackable resource needs from
+    the base game, so only the differences are listed here.
+    The defName must be unique across every loaded mod: keep the {{ProjectName}}_ prefix on all of yours.
+  -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>{{ProjectName}}_ExampleItem</defName>
+    <label>example item</label>
+    <description>An example item added by {{ModName|xml}}.</description>
+    <graphicData>
+      <!-- This is the base game's silver texture. For your own, put Textures/Things/Item/YourItem.png in the mod and write Things/Item/YourItem here, with Graphic_Single. -->
+      <texPath>Things/Item/Resource/Silver</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>5</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <stackLimit>75</stackLimit>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+  </ThingDef>
+
+</Defs>

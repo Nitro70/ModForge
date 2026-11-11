@@ -1,0 +1,25 @@
+{
+	"name": "{{ModName}}",
+	"namespace": "{{Author}}",
+	"version_number": "{{Version}}",
+	"description": "{{Description|json}}",
+	"website_url": "{{Website|json}}",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"authors": ["{{Author}}"],
+			"optional_dependencies": [],
+			"load_before": [],
+			"incompatibilities": [],
+{{#if Godot == 4}}
+			"compatible_mod_loader_version": ["{{ModLoaderVersion4}}"],
+{{#else}}
+			"compatible_mod_loader_version": ["{{ModLoaderVersion3}}"],
+{{/if}}
+			"compatible_game_version": ["{{GameVersion}}"],
+			"tags": [],
+			"description_rich": "",
+			"config_schema": {}
+		}
+	}
+}

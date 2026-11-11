@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+{{#if MinecraftVersion == 1.21.1}}
+    {
+      "item": "minecraft:dirt"
+    }
+{{#else}}
+    "minecraft:dirt"
+{{/if}}
+  ],
+  "result": {
+    "id": "minecraft:diamond",
+    "count": 1
+  }
+}

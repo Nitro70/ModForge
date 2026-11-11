@@ -1,0 +1,12 @@
+# English text for the mod. The file name is fixed: en-US_Mods.{{ProjectName}}.hjson puts every key under Mods.{{ProjectName}}.
+# tModLoader adds entries for new content to this file by itself after a build and reload.
+# https://github.com/tModLoader/tModLoader/wiki/Localization
+
+{{#if Item}}
+Items: {
+	{{ItemClass}}: {
+		DisplayName: "{{ItemName|json}}"
+		Tooltip: "An example item from {{ModName|json}}"
+	}
+}
+{{/if}}

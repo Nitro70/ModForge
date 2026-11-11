@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Text used from code with "Key".Translate(). Keys must be unique across every loaded mod. -->
+  <{{ProjectName}}_Enabled>Enabled</{{ProjectName}}_Enabled>
+  <{{ProjectName}}_EnabledTip>Turns the whole mod on or off.</{{ProjectName}}_EnabledTip>
+  <{{ProjectName}}_Multiplier>Multiplier: {0}</{{ProjectName}}_Multiplier>
+
+</LanguageData>

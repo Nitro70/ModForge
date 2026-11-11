@@ -1,0 +1,52 @@
+{
+  "id": "unreal-ue4ss-lua",
+  "name": "UE4SS Lua mod",
+  "engine": "Unreal",
+  "loader": "UE4SS",
+  "language": "Lua",
+  "summary": "A Lua script mod for Unreal Engine 4 and 5 games that have UE4SS. No compiler: edit main.lua and restart the mods.",
+  "description": "A UE4SS mod folder: Scripts\\main.lua plus enabled.txt. The generated folder is the mod itself; it goes into the Mods folder next to UE4SS.dll. Pick the game and install.bat copies it to the right place.",
+  "docs": "https://docs.ue4ss.com/guides/creating-a-lua-mod.html",
+  "order": 10,
+  "match": { "engine": "unreal", "loader": "UE4SS" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "The mod folder is this name without spaces. UE4SS lists mods by folder name." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The game's top folder. install.bat finds the UE4SS Mods folder under it. Leave empty to copy the mod by hand." },
+    { "id": "Keybind", "label": "Key bind", "type": "bool", "default": true, "group": "Features",
+      "help": "RegisterKeyBind: run code when a key is pressed." },
+    { "id": "Key", "label": "Key", "type": "text", "default": "F6", "group": "Features", "showWhen": "Keybind",
+      "pattern": "[A-Z][A-Z0-9_]*", "patternHelp": "a name from UE4SS's Key table, in capitals: F6, K, NUM_ONE, PAGE_UP",
+      "help": "A name from UE4SS's Key table (listed at the bottom of Mods\\Keybinds\\Scripts\\main.lua)." },
+    { "id": "ConsoleCommand", "label": "Console command", "type": "bool", "default": true, "group": "Features",
+      "help": "RegisterConsoleCommandHandler: a command typed into the game's own console." },
+    { "id": "Hook", "label": "Function hook", "type": "bool", "default": true, "group": "Features",
+      "help": "RegisterHook on an engine function: run code whenever the game calls it." },
+    { "id": "Notify", "label": "New object notification", "type": "bool", "default": false, "group": "Features",
+      "help": "NotifyOnNewObject: run code whenever the game creates an object of a class." },
+    { "id": "FindHelper", "label": "Safe object lookup helper", "type": "bool", "default": true, "group": "Features",
+      "help": "A FindFirstOf wrapper that returns nil instead of an invalid object." },
+    { "id": "EnabledTxt", "label": "Enable with enabled.txt", "type": "bool", "default": true, "group": "Install",
+      "help": "On: the mod folder carries an enabled.txt and loads without touching mods.txt. Off: install.bat adds the mod to mods.txt, which also fixes its load order." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "CommandName": "{{ModName|flat}}"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "enabled.txt": "EnabledTxt"
+  },
+  "next": [
+    "Run install.bat: it copies the mod into the game's UE4SS Mods folder (set the game folder in game-path.txt first if it is empty).",
+    "Start the game and open UE4SS.log next to UE4SS.dll: look for \"Starting Lua mod\" with the mod's name, then its \"loaded\" line.",
+    "Your code is in Scripts\\main.lua.",
+    "After an edit, run install.bat again, then press \"Restart All Mods\" in the UE4SS console window or restart the game."
+  ]
+}

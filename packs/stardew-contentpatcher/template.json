@@ -1,0 +1,47 @@
+{
+  "id": "stardew-contentpatcher",
+  "name": "Content Patcher pack (no code)",
+  "engine": "Game specific",
+  "loader": "Content Patcher",
+  "language": "JSON",
+  "summary": "A Stardew Valley content pack: change items, dialogue, images and maps with JSON, no programming.",
+  "description": "A folder with a manifest.json and a content.json that the Content Patcher mod reads. Nothing to build: the folder itself is the mod and goes into the game's Mods folder. Needs SMAPI and Content Patcher installed in the game.",
+  "docs": "https://github.com/Pathoschild/StardewMods/blob/develop/ContentPatcher/docs/author-guide.md",
+  "order": 20,
+  "match": { "family": "stardew" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the pack's UniqueID, which must never change once people use the mod." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the SMAPI console and on mod sites." },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with Stardew Valley.exe. Only used to write the exact install path into the README." },
+    { "id": "Config", "label": "Player settings", "type": "bool", "default": true, "group": "Features",
+      "help": "A ConfigSchema with an on/off setting, saved as config.json and shown in Generic Mod Config Menu." },
+    { "id": "I18n", "label": "Translations", "type": "bool", "default": true, "group": "Features",
+      "help": "An i18n folder with default.json, used through the i18n token." },
+    { "id": "Format", "label": "Content Patcher format version", "type": "text", "default": "2.9.0", "required": true, "group": "Build",
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 2.9.0",
+      "help": "The Content Patcher version the pack is written for. Players need that version or newer." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "UniqueId": "{{Author|pascal}}.{{ModName|pascal}}"
+  },
+  "folder": "[CP] {{ModName}}",
+  "when": {
+    "i18n": "I18n"
+  },
+  "next": [
+    "Install SMAPI and Content Patcher into Stardew Valley first if they are not there yet.",
+    "Put the whole [CP] {{ModName}} folder into the game's Mods folder. There is nothing to build.",
+    "Start the game through SMAPI and look for the pack under Content Patcher in the SMAPI console.",
+    "Load a save and look at a parsnip: its description is the one from this pack.",
+    "Your changes go into content.json, in the Changes list."
+  ]
+}

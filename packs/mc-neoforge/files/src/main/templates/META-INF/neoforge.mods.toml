@@ -1,0 +1,51 @@
+# The file NeoForge reads to find the mod. The ${...} values are filled in from gradle.properties
+# when the project is built (the generateModMetadata task in build.gradle).
+# It must end up at META-INF/neoforge.mods.toml inside the jar, which the build takes care of.
+
+# The license of the mod. Mandatory.
+license="${mod_license}"
+
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+
+[[mods]] #mandatory
+
+# The mod id. Must equal the value of @Mod on the main class.
+modId="${mod_id}" #mandatory
+
+version="${mod_version}" #mandatory
+
+displayName="${mod_name}" #mandatory
+
+authors="${mod_authors}" #optional
+
+# A URL for the "homepage" for this mod, displayed in the mod UI
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+
+# A file name (in the root of the mod JAR) containing a logo for display
+#logoFile="{{ModId}}.png" #optional
+
+# The description text for the mod (multi line!) (#mandatory)
+description='''
+${mod_description}
+'''
+
+# The [[mixins]] block declares a mixin config so that it gets loaded.
+#[[mixins]]
+#config="${mod_id}.mixins.json"
+
+# NeoForge itself, at least the version the mod was built with.
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+# The Minecraft versions the mod works on.
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,45 @@
+{
+  "id": "geode-mod",
+  "name": "Geode mod",
+  "engine": "Game specific",
+  "loader": "Geode",
+  "language": "C++",
+  "summary": "A Geometry Dash mod for the Geode loader: mod.json, CMakeLists.txt and a main.cpp that hooks the main menu.",
+  "description": "A C++ project that builds into a .geode package. mod.json must name the exact Geode and Geometry Dash versions it is built for, or the loader refuses the mod. The example hooks MenuLayer and adds a button to the main menu.",
+  "docs": "https://docs.geode-sdk.org/",
+  "order": 70,
+  "eol": "lf",
+  "match": { "family": "geometrydash" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Developer", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the mod ID, which must never change once people use the mod." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One sentence about the mod.",
+      "help": "Shown in the mod list in game." },
+    { "id": "GeodeVersion", "label": "Geode version", "type": "text", "default": "5.11.2", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 5.11.2",
+      "help": "The exact version of the Geode SDK you build with. It is in the VERSION file of the SDK folder (the GEODE_SDK environment variable)." },
+    { "id": "GdVersion", "label": "Geometry Dash version", "type": "text", "default": "2.2081", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+", "patternHelp": "like 2.2081",
+      "help": "The exact game version the mod is for. The loader refuses the mod on any other version." },
+    { "id": "NodeIdsVersion", "label": "Node IDs mod version", "type": "text", "default": "1.23.3", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.23.3",
+      "help": "The oldest geode.node-ids the mod accepts. The example finds the menu by its node ID, which that mod provides." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "ModId": "{{Author|kebab}}.{{ModName|kebab}}"
+  },
+  "folder": "{{ProjectName}}",
+  "next": [
+    "Install the Geode CLI and SDK first (geode sdk install), plus CMake and a C++ compiler.",
+    "In the project folder run: geode build",
+    "With a CLI profile set up the mod is installed into Geometry Dash. Otherwise copy build\\{{ModId}}.geode to geode\\mods in the game folder.",
+    "Start Geometry Dash: there is a new button on the main menu.",
+    "Your code is in src\\main.cpp."
+  ]
+}

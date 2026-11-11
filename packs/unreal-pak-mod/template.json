@@ -1,0 +1,50 @@
+{
+  "id": "unreal-pak-mod",
+  "name": "Pak mod (asset replacement)",
+  "engine": "Unreal",
+  "loader": "none (pak file)",
+  "language": "Assets",
+  "summary": "Replace or add game assets with a _P pak in Content\\Paks\\~mods. Works without any mod loader.",
+  "description": "A folder tree that mirrors the game's Content folder, and a script that packs it into a patch pak and drops it into the game. You supply the cooked .uasset files; the project gets the names and the folder depth right, which is where pak mods usually go wrong.",
+  "docs": "https://github.com/trumank/repak",
+  "order": 30,
+  "match": { "engine": "unreal" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "The pak is this name without spaces, plus _P." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The game's top folder (the one with the Engine folder in it). pack.bat installs the pak there. Leave empty to copy it by hand." },
+    { "id": "UnrealProject", "label": "Game project folder", "type": "text", "from": "UnrealProject", "default": "MyGame", "required": true,
+      "pattern": "[A-Za-z0-9_]+", "patternHelp": "a folder name: letters, digits and _ only",
+      "help": "The folder next to Engine in the game's install, the one with Content\\Paks inside. Every path in the pak starts with it." },
+    { "id": "Format", "label": "Pak format", "type": "choice", "default": "pak", "group": "Build",
+      "choices": [
+        { "value": "pak", "label": "UE4, and UE5 games with only .pak files: one .pak" },
+        { "value": "iostore", "label": "UE5 IoStore (the game has .utoc and .ucas files): .pak + .utoc + .ucas" }
+      ],
+      "help": "Look in the game's Content\\Paks folder. If it has .utoc files the game uses IoStore." },
+    { "id": "EngineVersion", "label": "Engine version", "type": "text", "from": "EngineVersion", "default": "4.27", "required": true, "group": "Build",
+      "pattern": "[45]\\.\\d+(\\.\\d+)?", "patternHelp": "like 4.27 or 5.3",
+      "help": "The Unreal Engine version of the game. It decides the pak version and what the assets must be cooked with." },
+    { "id": "ModsFolder", "label": "Folder inside Content\\Paks", "type": "text", "default": "~mods", "required": true, "group": "Build",
+      "pattern": "[A-Za-z0-9_~-]+", "patternHelp": "a folder name",
+      "help": "~mods is the usual place. Some games only load mods from a folder of their own (see the game's modding guide)." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "PakName": "{{ModName|pascal}}_P"
+  },
+  "folder": "{{ProjectName}}",
+  "main": "README.md",
+  "next": [
+    "Put the cooked files under the _P folder, at the same path they have in the game (see the text file inside it).",
+    "Put UnrealPak.exe or repak.exe into the tools folder (tools\\README.txt says where to get them).",
+    "Run pack.bat: it builds the pak into dist and copies it to Content\\Paks\\~mods in the game.",
+    "Start the game and look at the thing you replaced."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "unity-bepinex5-patcher",
+  "name": "BepInEx 5 preloader patcher",
+  "engine": "Unity",
+  "loader": "BepInEx 5",
+  "language": "C#",
+  "summary": "A patcher dll for BepInEx\\patchers that rewrites a game assembly with Mono.Cecil before the game loads it. For changes a plugin cannot make, like adding fields to a game class.",
+  "description": "A net35 class library that the BepInEx 5 preloader loads from BepInEx\\patchers. It gets each target assembly as a Mono.Cecil AssemblyDefinition before Unity loads it and can add or change types, fields and methods. Most mods want the BepInEx 5 plugin template instead; use this one only when the change must exist before the game's code runs.",
+  "docs": "https://docs.bepinex.dev/articles/dev_guide/preloader_patchers.html",
+  "order": 50,
+  "match": { "engine": "unity", "backend": "mono", "loader": "BepInEx 5" },
+  "options": [
+    { "id": "ModName", "label": "Patcher name", "type": "text", "default": "My Patcher", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the name of the patcher's config file." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with the game's exe. Only used to copy the built dll into the game." },
+    { "id": "TargetDll", "label": "Assembly to patch", "type": "text", "default": "Assembly-CSharp.dll", "required": true,
+      "pattern": "[A-Za-z0-9_.-]+\\.dll", "patternHelp": "a file name ending in .dll, like Assembly-CSharp.dll",
+      "help": "File name of a dll in <Game>_Data\\Managed, with the extension. The game's own code is Assembly-CSharp.dll." },
+    { "id": "CecilVersion", "label": "Mono.Cecil package version", "type": "text", "default": "0.10.4", "required": true,
+      "pattern": "[0-9A-Za-z.*-]+", "patternHelp": "a NuGet version, like 0.10.4",
+      "help": "Match the Mono.Cecil.dll in the game's BepInEx\\core folder. BepInEx 5.4 ships 0.10.4." },
+    { "id": "Config", "label": "Config file", "type": "bool", "default": true, "group": "Features",
+      "help": "Settings saved to BepInEx\\config that players can edit." },
+    { "id": "Deploy", "label": "Copy the dll into the game after each build", "type": "bool", "default": true, "group": "Build",
+      "showWhen": "GamePath" }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "ConfigName": "com.{{Author|flat}}.{{ModName|flat}}"
+  },
+  "folder": "{{ProjectName}}",
+  "next": [
+    "Open the folder in Visual Studio, Rider or VS Code.",
+    "Build it: dotnet build -c Release",
+    "The dll is in bin\\Release\\net35. With a game folder set it is also copied to BepInEx\\patchers in the game.",
+    "Start the game and look for the patcher's lines near the top of BepInEx\\LogOutput.log.",
+    "Your code starts in Patcher.cs, in Patch."
+  ]
+}

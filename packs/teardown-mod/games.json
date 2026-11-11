@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Teardown", "appid": "1167630", "family": "teardown",
+      "notes": "Local mods are folders in Documents\\Teardown\\mods. Scripts are Lua 5.1 and the game's API reference is data\\script_defs.lua.",
+      "folders": ["Teardown"] }
+  ]
+}

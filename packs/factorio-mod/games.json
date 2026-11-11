@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Factorio", "appid": "427520", "family": "factorio",
+      "notes": "Mods live in %APPDATA%\\Factorio\\mods as name_version folders or zips, not in the game folder.",
+      "folders": ["Factorio"] }
+  ]
+}

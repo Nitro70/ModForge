@@ -1,0 +1,54 @@
+{
+  "id": "unity-bepinex6-il2cpp",
+  "name": "BepInEx 6 plugin (IL2CPP)",
+  "engine": "Unity",
+  "loader": "BepInEx 6",
+  "language": "C#",
+  "summary": "A plugin dll for Unity IL2CPP games (the ones with GameAssembly.dll), loaded by the BepInEx 6 bleeding edge builds. The usual choice for Among Us.",
+  "description": "A net6.0 class library that BepInEx 6 loads from BepInEx\\plugins. Pick the game and the project references the interop assemblies BepInEx generated for it in BepInEx\\interop and copies the built dll into the game after every build.",
+  "docs": "https://docs.bepinex.dev/master/articles/dev_guide/plugin_tutorial/index.html",
+  "order": 20,
+  "match": { "engine": "unity", "backend": "il2cpp", "loader": "BepInEx 6" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the plugin GUID, which must never change once people use the mod." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with the game's exe. Leave empty to add the interop dlls by hand later." },
+    { "id": "BepInExVersion", "label": "BepInEx package version", "type": "text", "default": "6.0.0-be.*", "required": true,
+      "pattern": "[0-9A-Za-z.*-]+", "patternHelp": "a NuGet version, like 6.0.0-be.* or 6.0.0-be.738",
+      "help": "The BepInEx.Unity.IL2CPP package to compile against. The default takes the newest bleeding edge build." },
+    { "id": "Harmony", "label": "Harmony patches", "type": "bool", "default": true, "group": "Features",
+      "help": "A Patches folder with an example of changing a game method." },
+    { "id": "Config", "label": "Config file", "type": "bool", "default": true, "group": "Features",
+      "help": "Settings saved to BepInEx\\config that players can edit." },
+    { "id": "Component", "label": "Update loop with a hotkey", "type": "bool", "default": true, "group": "Features",
+      "help": "A MonoBehaviour registered with IL2CPP, with Update and a key press handler." },
+    { "id": "Deploy", "label": "Copy the dll into the game after each build", "type": "bool", "default": true, "group": "Build",
+      "showWhen": "GamePath" },
+    { "id": "ProcessFilter", "label": "Only load in this game's exe", "type": "bool", "default": false, "group": "Build",
+      "showWhen": "GameExe" }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "PluginGuid": "com.{{Author|flat}}.{{ModName|flat}}"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "Patches": "Harmony",
+    "ModBehaviour.cs": "Component",
+    "lib": "!GamePath"
+  },
+  "next": [
+    "Open the folder in Visual Studio, Rider or VS Code.",
+    "Start the game once with BepInEx 6 installed so BepInEx\\interop gets generated, then build: dotnet build -c Release",
+    "The dll is in bin\\Release\\net6.0. With a game folder set it is also copied to BepInEx\\plugins in the game.",
+    "Start the game and look for the plugin's line in BepInEx\\LogOutput.log.",
+    "Your code starts in Plugin.cs, in Load."
+  ]
+}

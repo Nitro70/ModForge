@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+.tools/
+.claude/
+CLAUDE.md
+*.user
+*.log

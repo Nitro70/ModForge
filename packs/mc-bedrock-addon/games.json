@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Minecraft: Bedrock Edition", "engine": "", "family": "minecraft-bedrock",
+      "notes": "Development packs go under Users\\Shared\\games\\com.mojang in this folder.",
+      "folders": ["%APPDATA%\\Minecraft Bedrock"] }
+  ]
+}

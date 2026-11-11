@@ -1,0 +1,58 @@
+{
+  "id": "gmod-addon",
+  "name": "Garry's Mod addon",
+  "engine": "Game specific",
+  "loader": "Garry's Mod addons folder",
+  "language": "Lua",
+  "summary": "A Garry's Mod addon folder: addon.json, autorun scripts split into shared, server and client, and optional weapon, entity and tool-gun skeletons.",
+  "description": "A folder for garrysmod\\addons. Garry's Mod loads Lua by folder: autorun scripts start with the game, weapons, entities and tools are picked up from their own folders. Every file here sits where the game looks for it and uses only models that ship with the game.",
+  "docs": "https://wiki.facepunch.com/gmod/",
+  "order": 40,
+  "eol": "lf",
+  "match": { "family": "gmod" },
+  "options": [
+    { "id": "ModName", "label": "Addon name", "type": "text", "default": "My Addon", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The GarrysMod folder. Only used to write the exact install path into the README." },
+    { "id": "AddonType", "label": "Workshop type", "type": "choice", "default": "ServerContent",
+      "choices": [
+        { "value": "ServerContent", "label": "Server content (scripts)" },
+        { "value": "weapon", "label": "Weapon" },
+        { "value": "entity", "label": "Entity" },
+        { "value": "tool", "label": "Tool" },
+        { "value": "effects", "label": "Effects" },
+        { "value": "gamemode", "label": "Gamemode" },
+        { "value": "map", "label": "Map" },
+        { "value": "model", "label": "Model" },
+        { "value": "npc", "label": "NPC" },
+        { "value": "vehicle", "label": "Vehicle" }
+      ],
+      "help": "Goes into addon.json, which is only read when the addon is packed for the Workshop." },
+    { "id": "Swep", "label": "Weapon (SWEP)", "type": "bool", "default": false, "group": "Features",
+      "help": "A scripted weapon in lua/weapons that shows up in the spawn menu under Weapons." },
+    { "id": "Entity", "label": "Entity (SENT)", "type": "bool", "default": false, "group": "Features",
+      "help": "A scripted entity in lua/entities that shows up in the spawn menu under Entities." },
+    { "id": "Tool", "label": "Tool gun mode (STOOL)", "type": "bool", "default": false, "group": "Features",
+      "help": "A tool for the tool gun in lua/weapons/gmod_tool/stools." }
+  ],
+  "derived": {
+    "Id": "{{ModName|snake}}"
+  },
+  "folder": "{{Id}}",
+  "when": {
+    "lua/weapons/weapon_*.lua": "Swep",
+    "lua/entities": "Entity",
+    "lua/weapons/gmod_tool": "Tool"
+  },
+  "next": [
+    "Copy the whole {{Id}} folder into garrysmod\\addons in the Garry's Mod folder.",
+    "Start Garry's Mod and a sandbox game. The console (the ~ key) shows the addon's loaded lines.",
+    "Type {{Id}}_hello in the console to try the example command.",
+    "Your code starts in lua\\autorun. README.md explains which file runs where."
+  ]
+}

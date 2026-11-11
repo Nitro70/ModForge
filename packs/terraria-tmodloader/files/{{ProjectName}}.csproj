@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- Import tModLoader mod properties -->
+	<!-- tModLoader keeps this file in ModSources. It sets the target framework, references tModLoader and packs the mod after a build. -->
+	<Import Project="..\tModLoader.targets" Condition="Exists('..\tModLoader.targets')" />
+
+	<!-- General -->
+	<PropertyGroup>
+
+	</PropertyGroup>
+
+	<!-- References -->
+	<ItemGroup>
+
+	</ItemGroup>
+
+	<!-- Only reached when the folder is not inside ModSources: lets the project open, then explains what is wrong. -->
+	<PropertyGroup Condition="!Exists('..\tModLoader.targets')">
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
+	<Target Name="CheckModSources" BeforeTargets="BeforeBuild" Condition="!Exists('..\tModLoader.targets')">
+		<Error Text="This folder must be inside tModLoader's ModSources folder: Documents\My Games\Terraria\tModLoader\ModSources\{{ProjectName}}. The file tModLoader.targets was not found next to the {{ProjectName}} folder. If ModSources is empty, start tModLoader once and open Workshop, Develop Mods." />
+	</Target>
+
+</Project>

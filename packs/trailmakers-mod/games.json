@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Trailmakers", "appid": "585420", "family": "trailmakers",
+      "notes": "Lua mods are folders with a main.lua in the game's mods folder. The API reference is mods\\trailmakers_docs.lua.",
+      "folders": ["Trailmakers"] }
+  ]
+}

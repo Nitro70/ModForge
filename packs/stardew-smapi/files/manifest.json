@@ -1,0 +1,15 @@
+{
+  "Name": "{{ModName|json}}",
+  "Author": "{{Author|json}}",
+  "Version": "%ProjectVersion%",
+  "Description": "{{Description|json}}",
+  "UniqueID": "{{UniqueId}}",
+  "EntryDll": "{{ProjectName}}.dll",
+  "MinimumApiVersion": "{{MinApi}}",
+{{#if Config && Gmcm}}
+  "Dependencies": [
+    { "UniqueID": "spacechase0.GenericModConfigMenu", "IsRequired": false }
+  ],
+{{/if}}
+  "UpdateKeys": []
+}

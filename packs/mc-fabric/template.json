@@ -1,0 +1,73 @@
+{
+  "id": "mc-fabric",
+  "name": "Fabric mod",
+  "engine": "Minecraft",
+  "loader": "Fabric",
+  "language": "Java",
+  "summary": "A Fabric mod for Minecraft: Java Edition 26.x, built with Gradle and Fabric Loom.",
+  "description": "A Gradle project in the shape of the official Fabric example mod for the unobfuscated 26.x versions: fabric.mod.json, a main entrypoint and, as options, a client entrypoint, a mixin, a command and an item. Needs JDK 25.",
+  "docs": "https://docs.fabricmc.net/develop/",
+  "order": 10,
+  "eol": "lf",
+  "match": { "family": "minecraft-java" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]+", "patternHelp": "start with a letter, at least two characters; letters, digits, spaces, - and _ only",
+      "help": "The mod id is this name in lower case with underscores (My Mod becomes my_mod). The id names files and folders, so do not change it later." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the Java package (com.author.modname) and the authors list." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A Fabric mod.",
+      "help": "One line shown in the mod list." },
+    { "id": "MinecraftVersion", "label": "Minecraft version", "type": "choice", "default": "26.3", "group": "Versions",
+      "choices": [
+        { "value": "26.3", "label": "26.3" },
+        { "value": "26.2", "label": "26.2" },
+        { "value": "26.1.2", "label": "26.1.2" }
+      ],
+      "help": "All three use the same project shape (no mappings, no remapping, Java 25). Older 1.21.x versions need a different build file and are not offered." },
+    { "id": "FabricApiVersion", "label": "Fabric API version", "type": "text", "default": "", "group": "Versions",
+      "help": "Leave empty to use the build that goes with the Minecraft version above (0.165.2+26.3, 0.161.0+26.2 or 0.155.3+26.1.2). Newer builds are listed on fabricmc.net/develop." },
+    { "id": "LoaderVersion", "label": "Fabric Loader version", "type": "text", "default": "0.20.1", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "like 0.20.1" },
+    { "id": "LoomVersion", "label": "Fabric Loom version", "type": "text", "default": "1.19-SNAPSHOT", "required": true, "group": "Versions",
+      "pattern": "[0-9A-Za-z.+-]+", "patternHelp": "like 1.19-SNAPSHOT" },
+    { "id": "GradleVersion", "label": "Gradle version", "type": "text", "default": "9.8.2", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+(\\.\\d+)?", "patternHelp": "like 9.8.2",
+      "help": "The Gradle that the wrapper downloads. Loom needs a recent one." },
+    { "id": "Client", "label": "Client entrypoint", "type": "bool", "default": true, "group": "Features",
+      "help": "A src/client source set with a ClientModInitializer, for rendering, screens and key binds." },
+    { "id": "Mixin", "label": "Example mixin", "type": "bool", "default": true, "group": "Features",
+      "help": "A mixin into a game class, with its mixins json." },
+    { "id": "Command", "label": "Example command", "type": "bool", "default": true, "group": "Features",
+      "help": "A slash command named after the mod id." },
+    { "id": "Item", "label": "Example item", "type": "bool", "default": true, "group": "Features",
+      "help": "A registered item with its model, name and a place in the creative inventory." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|snake}}",
+    "ModFlat": "{{ModName|flat}}",
+    "AuthorFlat": "{{Author|flat}}",
+    "Package": "com.{{Author|flat}}.{{ModName|flat}}",
+    "ClassName": "{{ModName|pascal}}"
+  },
+  "folder": "{{ModId}}",
+  "main": "src/main/java/com/{{AuthorFlat}}/{{ModFlat}}/{{ClassName}}.java",
+  "when": {
+    "src/client": "Client",
+    "*Mixin.java": "Mixin",
+    "*mixins.json": "Mixin",
+    "*ModItems.java": "Item",
+    "*example_item.json": "Item"
+  },
+  "next": [
+    "Install JDK 25 if you do not have it. Minecraft 26.x mods cannot be built with anything older.",
+    "Open the folder in IntelliJ IDEA and let it import the Gradle project. From a terminal instead, run once: gradle wrapper",
+    "Test in a development game: gradlew runClient",
+    "Build the jar: gradlew build. It lands in build\\libs.",
+    "Copy the jar (not the -sources one) to .minecraft\\mods, next to Fabric API, and start the Fabric profile.",
+    "Look for the mod's loaded line in logs\\latest.log. Your code starts in onInitialize in the main class."
+  ]
+}

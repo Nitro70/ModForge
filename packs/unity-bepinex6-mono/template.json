@@ -1,0 +1,68 @@
+{
+  "id": "unity-bepinex6-mono",
+  "name": "BepInEx 6 plugin (Mono)",
+  "engine": "Unity",
+  "loader": "BepInEx 6",
+  "language": "C#",
+  "summary": "A plugin dll for Unity Mono games that run the BepInEx 6 bleeding edge builds instead of BepInEx 5.",
+  "description": "A C# class library that BepInEx 6 loads from BepInEx\\plugins in a Unity Mono game. Most Mono games use BepInEx 5; pick this only when the game folder has BepInEx 6 (BepInEx\\core\\BepInEx.Unity.Mono.dll). A BepInEx 5 plugin does not load in BepInEx 6 and the other way round.",
+  "docs": "https://docs.bepinex.dev/master/articles/dev_guide/plugin_tutorial/index.html",
+  "order": 25,
+  "match": { "engine": "unity", "backend": "mono", "loader": "BepInEx 6" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the plugin GUID, which must never change once people use the mod." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with the game's exe. Leave empty to add the game dlls by hand later." },
+    { "id": "Tfm", "label": "Target framework", "type": "choice", "from": "UnityTfm", "default": "netstandard2.1",
+      "choices": [
+        { "value": "netstandard2.1", "label": "netstandard2.1 (Unity 2021.2+)" },
+        { "value": "net46", "label": "net46 (Unity 2018 to 2021.1)" },
+        { "value": "net35", "label": "net35 (Unity 5 to 2017)" }
+      ],
+      "help": "Set from the game's Unity version when a game is picked." },
+    { "id": "UnityVersion", "label": "Unity version", "type": "text", "from": "UnityVersion", "default": "2022.3.9",
+      "showWhen": "!GamePath", "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "like 2022.3.9",
+      "help": "Only used when no game folder is set: Unity's assemblies then come from NuGet." },
+    { "id": "BepInExVersion", "label": "BepInEx package version", "type": "text", "default": "6.0.0-be.*", "required": true,
+      "pattern": "[0-9A-Za-z.*-]+", "patternHelp": "a NuGet version, like 6.0.0-be.* or 6.0.0-be.738",
+      "help": "The BepInEx.Unity.Mono package to compile against. The default takes the newest bleeding edge build." },
+    { "id": "Harmony", "label": "Harmony patches", "type": "bool", "default": true, "group": "Features",
+      "help": "A Patches folder with an example of changing a game method." },
+    { "id": "Config", "label": "Config file", "type": "bool", "default": true, "group": "Features",
+      "help": "Settings saved to BepInEx\\config that players can edit." },
+    { "id": "Hotkey", "label": "Hotkey", "type": "bool", "default": true, "group": "Features",
+      "help": "A key press handler in Update." },
+    { "id": "Gui", "label": "On-screen window", "type": "bool", "default": false, "group": "Features",
+      "help": "A small IMGUI window, the base of a mod menu." },
+    { "id": "Publicize", "label": "Access private game members", "type": "bool", "default": false, "group": "Features",
+      "showWhen": "GamePath",
+      "help": "Publicizes Assembly-CSharp at build time so private fields and methods compile." },
+    { "id": "Deploy", "label": "Copy the dll into the game after each build", "type": "bool", "default": true, "group": "Build",
+      "showWhen": "GamePath" },
+    { "id": "ProcessFilter", "label": "Only load in this game's exe", "type": "bool", "default": false, "group": "Build",
+      "showWhen": "GameExe" }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "PluginGuid": "com.{{Author|flat}}.{{ModName|flat}}"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "Patches": "Harmony",
+    "lib": "!GamePath"
+  },
+  "next": [
+    "Open the folder in Visual Studio, Rider or VS Code.",
+    "Build it: dotnet build -c Release",
+    "The dll is in bin\\Release. With a game folder set it is also copied to BepInEx\\plugins in the game.",
+    "Start the game and look for the plugin's line in BepInEx\\LogOutput.log.",
+    "Your code starts in Plugin.cs, in Awake."
+  ]
+}

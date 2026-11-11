@@ -1,0 +1,13 @@
+{
+  "type": "code",
+  "modid": "{{ModId}}",
+  "name": "{{ModName|json}}",
+  "authors": [
+    "{{Author|json}}"
+  ],
+  "description": "{{Description|json}}",
+  "version": "{{Version}}",
+  "dependencies": {
+    "game": ""
+  }
+}

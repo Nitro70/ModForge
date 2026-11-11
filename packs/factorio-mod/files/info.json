@@ -1,0 +1,9 @@
+{
+  "name": "{{ModId}}",
+  "version": "{{Version}}",
+  "title": "{{ModName|json}}",
+  "author": "{{Author|json}}",
+  "description": "{{Description|json}}",
+  "factorio_version": "{{FactorioVersion}}",
+  "dependencies": ["base >= {{FactorioVersion}}"]
+}

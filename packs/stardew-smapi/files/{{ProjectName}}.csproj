@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Stardew Valley 1.6 runs on .NET 6. Do not change this. -->
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>{{ProjectName}}</AssemblyName>
+    <RootNamespace>{{Namespace}}</RootNamespace>
+    <!-- The one place the mod version lives. manifest.json picks it up through %ProjectVersion%. -->
+    <Version>{{Version}}</Version>
+    <LangVersion>latest</LangVersion>
+{{#if Harmony}}
+
+    <!-- Adds a reference to the Harmony that ships with SMAPI. -->
+    <EnableHarmony>true</EnableHarmony>
+{{/if}}
+{{#if GamePath}}
+
+    <!-- The folder with Stardew Valley.exe. When it does not exist the build looks for a standard install instead. -->
+    <GamePath>{{GamePath|xml}}</GamePath>
+{{/if}}
+  </PropertyGroup>
+
+  <!--
+    The official SMAPI build package. It references the game and SMAPI, and after a build it copies
+    the dll, manifest.json, i18n and assets to the game's Mods folder and makes a release zip in bin.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="{{BuildPackage}}" />
+  </ItemGroup>
+
+</Project>

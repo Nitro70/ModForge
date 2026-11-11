@@ -1,0 +1,12 @@
+{
+  "hud.hello": "Hello from {{ModName|json}}!"{{#if Config && Gmcm}},{{/if}}
+{{#if Config && Gmcm}}
+
+  "config.enabled.name": "Enabled",
+  "config.enabled.tooltip": "Turns the whole mod on or off.",
+  "config.example-number.name": "Example number",
+  "config.example-number.tooltip": "An example number setting.",
+  "config.hello-key.name": "Hello key",
+  "config.hello-key.tooltip": "Press to show a message."
+{{/if}}
+}

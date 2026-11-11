@@ -1,0 +1,57 @@
+{
+  "id": "unreal-ue4ss-cpp",
+  "name": "UE4SS C++ mod",
+  "engine": "Unreal",
+  "loader": "UE4SS",
+  "language": "C++",
+  "summary": "A native UE4SS mod: a dll built against the UE4SS source. For what Lua is too slow or too limited to do.",
+  "description": "The workspace the UE4SS docs describe: RE-UE4SS as a git submodule next to your mod's folder, built together, giving dlls\\main.dll in the mod folder. Needs Visual Studio, git, Rust and a GitHub account linked to Epic Games. The first build compiles UE4SS itself and takes a while.",
+  "docs": "https://docs.ue4ss.com/guides/creating-a-c++-mod.html",
+  "order": 20,
+  "match": { "engine": "unreal", "loader": "UE4SS" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "The mod folder, the build target and the C++ class are this name without spaces." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A UE4SS C++ mod.",
+      "help": "Shown in the UE4SS mod list." },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The game's top folder. install.bat finds the UE4SS Mods folder under it. Leave empty to copy the dll by hand." },
+    { "id": "Ue4ss", "label": "UE4SS version in the game", "type": "choice", "default": "stable", "group": "Build",
+      "choices": [
+        { "value": "stable", "label": "3.0.1, the stable release (CMake)" },
+        { "value": "xmake", "label": "experimental-latest, the 2024 experimental builds (xmake)" },
+        { "value": "main", "label": "experimental2 and newer (CMake)" }
+      ],
+      "help": "A C++ mod only loads in the UE4SS version it was built against. The first lines of UE4SS.log say which one the game has." },
+    { "id": "Ue4ssRef", "label": "RE-UE4SS tag, branch or commit", "type": "text", "default": "", "group": "Build",
+      "pattern": "[A-Za-z0-9._/-]*", "patternHelp": "a git tag, branch or commit id",
+      "help": "Leave empty for the tag that goes with the version above (v3.0.1, experimental-latest, experimental2)." },
+    { "id": "Generator", "label": "CMake generator", "type": "text", "default": "Visual Studio 17 2022", "group": "Build",
+      "showWhen": "Ue4ss != xmake", "pattern": "[A-Za-z0-9 ._-]+", "patternHelp": "a CMake generator name, like Visual Studio 17 2022",
+      "help": "The Visual Studio you have installed, as CMake names it (cmake --help lists them)." },
+    { "id": "EnabledTxt", "label": "Enable with enabled.txt", "type": "bool", "default": true, "group": "Install",
+      "help": "On: install.bat puts an enabled.txt in the mod folder. Off: it adds the mod to mods.txt, which also fixes its load order." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "ApiMacro": "{{ModName|snake|upper}}_API"
+  },
+  "folder": "{{ProjectName}}Workspace",
+  "when": {
+    "*CMakeLists.txt": "Ue4ss != xmake",
+    "*xmake.lua": "Ue4ss == xmake"
+  },
+  "next": [
+    "Link your GitHub account to your Epic Games account and add an SSH key to GitHub: UE4SS pulls Unreal's headers from a private repo.",
+    "Run setup.bat once: it makes the folder a git repo and adds RE-UE4SS as a submodule at the right version.",
+    "Run build.bat. The first build compiles UE4SS too.",
+    "Run install.bat: it copies the dll to Mods\\<mod>\\dlls\\main.dll in the game.",
+    "Start the game and look for the mod's \"loaded\" line in UE4SS.log.",
+    "Your code is in the mod's dllmain.cpp."
+  ]
+}

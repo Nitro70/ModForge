@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Stardew Valley", "appid": "413150", "family": "stardew", "loader": "SMAPI",
+      "notes": "Mods load through SMAPI from the Mods folder. Version 1.6 runs on .NET 6.",
+      "folders": ["Stardew Valley"] }
+  ]
+}

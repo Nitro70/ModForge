@@ -1,0 +1,46 @@
+{
+  "id": "mc-resourcepack",
+  "name": "Resource pack",
+  "engine": "Minecraft",
+  "loader": "Vanilla",
+  "language": "JSON",
+  "summary": "A resource pack for Minecraft: Java Edition: change texts, models and textures, with the right pack format for the chosen version.",
+  "description": "A folder that goes straight into the resourcepacks folder. Nothing to build. It starts with two small text-only changes you can see at once (a renamed menu button and a stick that looks like a blaze rod) and notes on where your own pictures go.",
+  "docs": "https://minecraft.wiki/w/Resource_pack",
+  "order": 50,
+  "eol": "lf",
+  "match": { "family": "minecraft-java" },
+  "options": [
+    { "id": "ModName", "label": "Pack name", "type": "text", "default": "My Pack", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A resource pack.",
+      "help": "Shown under the pack's name in the resource pack list." },
+    { "id": "MinecraftVersion", "label": "Minecraft version", "type": "choice", "default": "26.3",
+      "choices": [
+        { "value": "26.3", "label": "26.3 (pack format 97)" },
+        { "value": "26.2", "label": "26.2 (pack format 88)" },
+        { "value": "26.1", "label": "26.1, 26.1.1, 26.1.2 (pack format 84)" },
+        { "value": "1.21.11", "label": "1.21.11 (pack format 75)" },
+        { "value": "1.21.1", "label": "1.21, 1.21.1 (pack format 34)" }
+      ],
+      "help": "Sets the pack format in pack.mcmeta. Resource packs and data packs count their formats separately." },
+    { "id": "Lang", "label": "Example text change", "type": "bool", "default": true, "group": "Examples",
+      "help": "Renames the Singleplayer button on the title screen, so you can see the pack is active." },
+    { "id": "Model", "label": "Example model change", "type": "bool", "default": true, "group": "Examples",
+      "help": "Makes sticks look like blaze rods, using a texture the game already has." }
+  ],
+  "derived": {
+    "PackFolder": "{{ModName|pascal}}"
+  },
+  "folder": "{{PackFolder}}",
+  "when": {
+    "assets/minecraft/lang": "Lang",
+    "assets/minecraft/models": "Model"
+  },
+  "next": [
+    "Copy the whole folder into .minecraft\\resourcepacks",
+    "In the game: Options, Resource Packs, move the pack to the Selected side, Done.",
+    "The title screen button and the stick show the pack is active.",
+    "Put your own pictures under assets\\minecraft\\textures (see the readme.txt there), then press F3+T in game to reload."
+  ]
+}

@@ -1,0 +1,5 @@
+{{#if GamePath && UnrealBinDir}}
+{{GamePath}}\{{UnrealBinDir}}
+{{#elif GamePath}}
+{{GamePath}}
+{{/if}}

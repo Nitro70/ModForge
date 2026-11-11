@@ -1,0 +1,48 @@
+{
+  "id": "trailmakers-mod",
+  "name": "Trailmakers Lua mod",
+  "engine": "Game specific",
+  "loader": "Trailmakers mods folder",
+  "language": "Lua",
+  "summary": "A Trailmakers mod: one folder with a main.lua that uses the game's tm API, with a menu, a hotkey and an update loop.",
+  "description": "Trailmakers runs main.lua from a folder inside the game's mods folder when the host turns the mod on for a session. The script reaches the game through the tm table. This project is that folder, ready to copy in.",
+  "docs": "https://github.com/ALVAROPING1/Trailmakers-API-LuaLS",
+  "order": 30,
+  "match": { "family": "trailmakers" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with Trailmakers.exe. Only used to write the exact install path into the README." },
+    { "id": "Menu", "label": "Mod menu", "type": "bool", "default": true, "group": "Features",
+      "help": "A label and a button in the in-game mod menu of every player." },
+    { "id": "Hotkey", "label": "Hotkey", "type": "bool", "default": true, "group": "Features",
+      "help": "A key press handler for every player." },
+    { "id": "Key", "label": "Key", "type": "choice", "default": "home", "group": "Features", "showWhen": "Hotkey",
+      "choices": [
+        { "value": "home", "label": "Home" },
+        { "value": "insert", "label": "Insert" },
+        { "value": "end", "label": "End" },
+        { "value": "j", "label": "J" },
+        { "value": "k", "label": "K" },
+        { "value": "l", "label": "L" }
+      ],
+      "help": "Letters also fire while a player types in chat, and the builder uses many of them." },
+    { "id": "Update", "label": "Update loop", "type": "bool", "default": true, "group": "Features",
+      "help": "An update function with a once-a-second timer." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|flat}}"
+  },
+  "folder": "{{ModId}}",
+  "next": [
+    "Copy the whole {{ModId}} folder into the mods folder inside the Trailmakers game folder.",
+    "Start Trailmakers, host a game and turn the mod on in the session's mod options.",
+    "Look for the mod's lines in mods\\{{ModId}}.log in the game folder.",
+    "Your code is in main.lua. The game's own API reference is mods\\trailmakers_docs.lua."
+  ]
+}

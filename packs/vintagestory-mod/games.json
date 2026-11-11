@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Vintage Story", "family": "vintagestory",
+      "notes": "Not on Steam. Installs to %APPDATA%\\Vintagestory; mods go into %APPDATA%\\VintagestoryData\\Mods.",
+      "folders": ["Vintagestory", "%APPDATA%\\Vintagestory"] }
+  ]
+}

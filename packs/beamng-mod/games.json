@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "BeamNG.drive", "appid": "284160", "family": "beamng",
+      "notes": "Mods are zips (or unpacked folders) in the user folder's mods directory, never in the game folder.",
+      "folders": ["BeamNG.drive"] }
+  ]
+}

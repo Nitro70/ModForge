@@ -1,0 +1,43 @@
+{
+  "id": "terraria-tmodloader",
+  "name": "tModLoader mod",
+  "engine": "Game specific",
+  "loader": "tModLoader",
+  "language": "C#",
+  "summary": "A Terraria mod for tModLoader, laid out like the one its own Create Mod button makes.",
+  "description": "The source folder of a tModLoader mod: build.txt, the Mod class, an example item and its localization. It has to live in tModLoader's ModSources folder, because the project imports a file tModLoader keeps there and tModLoader builds mods from there.",
+  "docs": "https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide",
+  "order": 40,
+  "match": { "family": "terraria" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Without spaces it becomes the folder, the namespace and the mod's internal name, which must never change once people use the mod. Mod, ModLoader and tModLoader are taken." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the game's mod list (description.txt)." },
+    { "id": "Item", "label": "Example item", "type": "bool", "default": true, "group": "Features",
+      "help": "A sword with a recipe, to see something in game straight away." },
+    { "id": "ItemName", "label": "Item name", "type": "text", "default": "Example Sword", "group": "Features",
+      "showWhen": "Item", "pattern": "[A-Za-z][A-Za-z0-9 ]*", "patternHelp": "start with a letter; letters, digits and spaces only" }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "ItemClass": "{{ItemName|pascal}}"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "Content": "Item"
+  },
+  "next": [
+    "Move the {{ProjectName}} folder into Documents\\My Games\\Terraria\\tModLoader\\ModSources (keep the folder name).",
+    "If ModSources does not exist yet: start tModLoader once and open Workshop, Develop Mods.",
+    "In tModLoader open Workshop, Develop Mods and press Build + Reload next to {{ProjectName}}.",
+    "The mod is now in the Mods list and enabled. Look for its line in tModLoader-Logs\\client.log.",
+    "Your code starts in {{ProjectName}}.cs; the example item is in Content\\Items."
+  ]
+}

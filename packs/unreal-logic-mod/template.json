@@ -1,0 +1,47 @@
+{
+  "id": "unreal-logic-mod",
+  "name": "Blueprint logic mod (UE4SS BPModLoader)",
+  "engine": "Unreal",
+  "loader": "UE4SS",
+  "language": "Blueprint",
+  "summary": "A Blueprint mod made in the Unreal Editor and loaded by UE4SS from Content\\Paks\\LogicMods. For adding actors, widgets and game logic.",
+  "description": "UE4SS's BPModLoaderMod spawns a Blueprint actor called ModActor from every pak in LogicMods. Blueprints cannot be written as text, so this project is the exact folder tree, the names that must match, a packing script that refuses a wrong layout, and step by step instructions for the editor side.",
+  "docs": "https://docs.ue4ss.com/feature-overview/blueprint-modloader.html",
+  "order": 40,
+  "match": { "engine": "unreal", "loader": "UE4SS" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Without spaces this is the pak's name and the folder under Content\\Mods. The two must be the same." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The game's top folder (the one with the Engine folder in it). pack.bat installs the pak there. Leave empty to copy it by hand." },
+    { "id": "UnrealProject", "label": "Game project folder", "type": "text", "from": "UnrealProject", "default": "MyGame", "required": true,
+      "pattern": "[A-Za-z0-9_]+", "patternHelp": "a folder name: letters, digits and _ only",
+      "help": "The folder next to Engine in the game's install, the one with Content\\Paks inside. Every path in the pak starts with it." },
+    { "id": "Format", "label": "Pak format", "type": "choice", "default": "pak", "group": "Build",
+      "choices": [
+        { "value": "pak", "label": "UE4, and UE5 games with only .pak files: one .pak" },
+        { "value": "iostore", "label": "UE5 IoStore (the game has .utoc and .ucas files): .pak + .utoc + .ucas" }
+      ],
+      "help": "Look in the game's Content\\Paks folder. If it has .utoc files the game uses IoStore." },
+    { "id": "EngineVersion", "label": "Engine version", "type": "text", "from": "EngineVersion", "default": "4.27", "required": true, "group": "Build",
+      "pattern": "[45]\\.\\d+(\\.\\d+)?", "patternHelp": "like 4.27 or 5.3",
+      "help": "The Unreal Engine version of the game. The editor you make the Blueprint in must be the same version." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "PakName": "{{ModName|pascal}}"
+  },
+  "folder": "{{ProjectName}}LogicMod",
+  "main": "README.md",
+  "next": [
+    "Follow README.md, \"Make the Blueprint\": create Content\\Mods\\<mod>\\ModActor in an Unreal Editor project of the game's engine version and cook it.",
+    "Copy the cooked ModActor files into the folder the README names.",
+    "Put UnrealPak.exe or repak.exe into the tools folder, then run pack.bat: it builds the pak and copies it to Content\\Paks\\LogicMods.",
+    "Start the game and look in UE4SS.log for the mod's name after \"Loading mod\"."
+  ]
+}

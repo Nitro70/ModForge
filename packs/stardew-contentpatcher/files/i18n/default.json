@@ -1,0 +1,8 @@
+{
+  "parsnip.description": "A spring tuber, changed by {{ModName|json}}."{{#if Config}},{{/if}}
+{{#if Config}}
+
+  "config.ChangeParsnip.name": "Change the parsnip",
+  "config.ChangeParsnip.description": "Replaces the parsnip's description with the one from this pack."
+{{/if}}
+}

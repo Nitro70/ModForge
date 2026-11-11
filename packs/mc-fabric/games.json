@@ -1,0 +1,5 @@
+{
+  "games": [
+    { "name": "Minecraft: Java Edition", "engine": "", "family": "minecraft-java", "folders": ["%APPDATA%\\.minecraft"] }
+  ]
+}

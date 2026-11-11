@@ -1,0 +1,64 @@
+{
+  "id": "mc-neoforge",
+  "name": "NeoForge mod",
+  "engine": "Minecraft",
+  "loader": "NeoForge",
+  "language": "Java",
+  "summary": "A NeoForge mod for Minecraft: Java Edition 26.x, built with Gradle and ModDevGradle.",
+  "description": "A Gradle project in the shape of the official NeoForge MDK: neoforge.mods.toml, a main class marked with @Mod and, as options, a client class, an item and a command. Needs JDK 25, which Gradle can download by itself.",
+  "docs": "https://docs.neoforged.net/docs/gettingstarted/",
+  "order": 20,
+  "eol": "lf",
+  "match": { "family": "minecraft-java" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]+", "patternHelp": "start with a letter, at least two characters; letters, digits, spaces, - and _ only",
+      "help": "The mod id is this name in lower case with underscores (My Mod becomes my_mod). The id names files and folders, so do not change it later." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the Java package (com.author.modname) and the authors line." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A NeoForge mod.",
+      "help": "One line shown in the mod list." },
+    { "id": "MinecraftVersion", "label": "Minecraft version", "type": "choice", "default": "26.3", "group": "Versions",
+      "choices": [
+        { "value": "26.3", "label": "26.3" },
+        { "value": "26.2", "label": "26.2" },
+        { "value": "26.1.2", "label": "26.1.2" }
+      ],
+      "help": "The official MDK has the same build file for all three." },
+    { "id": "NeoVersion", "label": "NeoForge version", "type": "text", "default": "", "group": "Versions",
+      "help": "Leave empty to use the version from the official MDK for the Minecraft version above (26.3.0.101, 26.2.0.93 or 26.1.2.126). It must start with the Minecraft version. Newer ones are listed on projects.neoforged.net." },
+    { "id": "ModDevVersion", "label": "ModDevGradle version", "type": "text", "default": "2.0.148", "required": true, "group": "Versions",
+      "pattern": "[0-9A-Za-z.+-]+", "patternHelp": "like 2.0.148" },
+    { "id": "GradleVersion", "label": "Gradle version", "type": "text", "default": "9.2.1", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+(\\.\\d+)?", "patternHelp": "like 9.2.1",
+      "help": "The Gradle that the wrapper downloads." },
+    { "id": "Client", "label": "Client class", "type": "bool", "default": true, "group": "Features",
+      "help": "A second @Mod class that only loads on the client, for rendering, screens and key binds." },
+    { "id": "Item", "label": "Example item", "type": "bool", "default": true, "group": "Features",
+      "help": "A registered item with its model, name and a place in the creative inventory." },
+    { "id": "Command", "label": "Example command", "type": "bool", "default": true, "group": "Features",
+      "help": "A slash command named after the mod id." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|snake}}",
+    "ModFlat": "{{ModName|flat}}",
+    "AuthorFlat": "{{Author|flat}}",
+    "Package": "com.{{Author|flat}}.{{ModName|flat}}",
+    "ClassName": "{{ModName|pascal}}"
+  },
+  "folder": "{{ModId}}",
+  "when": {
+    "*Client.java": "Client",
+    "*example_item.json": "Item"
+  },
+  "next": [
+    "Open the folder in IntelliJ IDEA and let it import the Gradle project (the first import downloads Minecraft and takes a while). From a terminal instead, run once: gradle wrapper",
+    "Test in a development game: gradlew runClient",
+    "Build the jar: gradlew build. It lands in build\\libs.",
+    "Copy the jar to .minecraft\\mods and start the NeoForge profile.",
+    "Look for the mod's loaded line in logs\\latest.log. Your code starts in the constructor of the main class."
+  ]
+}

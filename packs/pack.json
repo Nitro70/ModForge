@@ -1,0 +1,5 @@
+{
+  "name": "ModForge templates",
+  "version": 1,
+  "engines": ["Unity", "Unreal", "Godot", "Minecraft", "Game specific", "Native"]
+}

@@ -1,0 +1,55 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "{{ModName|json}}",
+    "description": "{{Description|json}}",
+    "uuid": "{{BpUuid|lower}}",
+    "version": [1, 0, 0],
+    "min_engine_version": [{{MinEngineVersion}}]
+  },
+  "modules": [
+{{#if Script}}
+    {
+      "description": "Data: functions, items, entities, loot tables, recipes",
+      "type": "data",
+      "uuid": "{{BpDataUuid|lower}}",
+      "version": [1, 0, 0]
+    },
+    {
+      "description": "Script",
+      "type": "script",
+      "language": "javascript",
+      "uuid": "{{BpScriptUuid|lower}}",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+{{#else}}
+    {
+      "description": "Data: functions, items, entities, loot tables, recipes",
+      "type": "data",
+      "uuid": "{{BpDataUuid|lower}}",
+      "version": [1, 0, 0]
+    }
+{{/if}}
+  ],
+  "dependencies": [
+{{#if Script}}
+    {
+      "uuid": "{{RpUuid|lower}}",
+      "version": [1, 0, 0]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "{{ScriptApiVersion}}"
+    }
+{{#else}}
+    {
+      "uuid": "{{RpUuid|lower}}",
+      "version": [1, 0, 0]
+    }
+{{/if}}
+  ],
+  "metadata": {
+    "authors": ["{{Author|json}}"]
+  }
+}

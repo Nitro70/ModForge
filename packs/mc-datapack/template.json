@@ -1,0 +1,52 @@
+{
+  "id": "mc-datapack",
+  "name": "Data pack",
+  "engine": "Minecraft",
+  "loader": "Vanilla",
+  "language": "mcfunction, JSON",
+  "summary": "A data pack for Minecraft: Java Edition: functions that run on load and every tick, with the right pack format and folder names for the chosen version.",
+  "description": "A folder that goes straight into a world's datapacks folder. Nothing to build. The pack format number and the shape of pack.mcmeta are set for the Minecraft version you pick, because a wrong number or an old folder name makes the game skip the pack without an error.",
+  "docs": "https://minecraft.wiki/w/Data_pack",
+  "order": 40,
+  "eol": "lf",
+  "match": { "family": "minecraft-java" },
+  "options": [
+    { "id": "ModName", "label": "Pack name", "type": "text", "default": "My Pack", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]+", "patternHelp": "start with a letter, at least two characters; letters, digits, spaces, - and _ only",
+      "help": "The namespace is this name in lower case with underscores (My Pack becomes my_pack). Functions are then called my_pack:name." },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A data pack.",
+      "help": "Shown in the data pack list in game." },
+    { "id": "MinecraftVersion", "label": "Minecraft version", "type": "choice", "default": "26.3",
+      "choices": [
+        { "value": "26.3", "label": "26.3 (pack format 121)" },
+        { "value": "26.2", "label": "26.2 (pack format 107)" },
+        { "value": "26.1", "label": "26.1, 26.1.1, 26.1.2 (pack format 101)" },
+        { "value": "1.21.11", "label": "1.21.11 (pack format 94)" },
+        { "value": "1.21.1", "label": "1.21, 1.21.1 (pack format 48)" }
+      ],
+      "help": "Sets the pack format in pack.mcmeta. All of these use the singular folder names (function, advancement, recipe, loot_table)." },
+    { "id": "Advancement", "label": "Example advancement", "type": "bool", "default": true, "group": "Examples",
+      "help": "An advancement that runs a function when you pick up dirt." },
+    { "id": "Recipe", "label": "Example recipe", "type": "bool", "default": true, "group": "Examples",
+      "help": "A crafting recipe: one dirt makes one diamond." },
+    { "id": "LootTable", "label": "Example loot table", "type": "bool", "default": false, "group": "Examples",
+      "help": "A loot table you can roll with the /loot command." }
+  ],
+  "derived": {
+    "Namespace": "{{ModName|snake}}",
+    "PackFolder": "{{ModName|snake}}"
+  },
+  "folder": "{{PackFolder}}",
+  "when": {
+    "*/advancement/*": "Advancement",
+    "*/recipe/*": "Recipe",
+    "*/loot_table/*": "LootTable"
+  },
+  "next": [
+    "Copy the whole folder into the datapacks folder of a world: .minecraft\\saves\\<world>\\datapacks",
+    "Open the world, or run /reload if it is already open (cheats must be on).",
+    "Run /datapack list and look for the pack in the enabled list. After /reload its loaded message shows in chat.",
+    "Run /function with the pack's hello function to see it work.",
+    "Your commands go into the .mcfunction files under data\\<namespace>\\function."
+  ]
+}

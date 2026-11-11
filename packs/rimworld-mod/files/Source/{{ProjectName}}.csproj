@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- RimWorld {{GameVersion}} runs on Unity's Mono, which loads .NET Framework 4.7.2 assemblies. -->
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>{{ProjectName}}</AssemblyName>
+    <RootNamespace>{{Namespace}}</RootNamespace>
+    <Version>{{Version}}</Version>
+    <LangVersion>latest</LangVersion>
+
+    <!-- The dll goes straight into the folder the game loads it from, and nothing else goes there. -->
+    <OutputPath>..\{{GameVersion}}\Assemblies\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <DebugType>none</DebugType>
+{{#if GamePath}}
+
+    <!-- The game this mod is for. Change this one line if the game moves. -->
+    <GameDir>{{GamePath|xml}}</GameDir>
+{{/if}}
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The game's assemblies to compile against. Reference only: nothing from it is copied next to the mod. -->
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="{{GameVersion}}.*" />
+{{#if Harmony}}
+    <!-- Compile against Harmony but do not ship it: the Harmony mod provides 0Harmony.dll in the game. -->
+    <PackageReference Include="Lib.Harmony" Version="{{HarmonyVersion}}" ExcludeAssets="runtime" />
+{{/if}}
+  </ItemGroup>
+{{#if Deploy && GamePath}}
+
+  <!-- After each build, copy the mod (everything but Source) into the game's Mods folder. -->
+  <PropertyGroup>
+    <ModRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</ModRoot>
+    <DeployDir>$(GameDir)\Mods\{{ProjectName}}</DeployDir>
+  </PropertyGroup>
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="Exists('$(GameDir)\Mods') And '$(ModRoot)' != '$(DeployDir)'">
+    <ItemGroup>
+      <ModFiles Include="$(ModRoot)\**" Exclude="$(ModRoot)\Source\**;$(ModRoot)\.git\**;$(ModRoot)\.vs\**;$(ModRoot)\.gitignore;$(ModRoot)\README.md" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ModFiles)" DestinationFiles="@(ModFiles->'$(DeployDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Message Importance="high" Text="Copied the mod to $(DeployDir)" />
+  </Target>
+{{/if}}
+
+</Project>

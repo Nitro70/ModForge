@@ -1,0 +1,20 @@
+{
+  "pack": {
+    "description": "{{Description|json}}",
+{{#if MinecraftVersion == 26.3}}
+    "min_format": 121,
+    "max_format": 121
+{{#elif MinecraftVersion == 26.2}}
+    "min_format": 107,
+    "max_format": 107
+{{#elif MinecraftVersion == 26.1}}
+    "min_format": 101,
+    "max_format": 101
+{{#elif MinecraftVersion == 1.21.11}}
+    "min_format": 94,
+    "max_format": 94
+{{#else}}
+    "pack_format": 48
+{{/if}}
+  }
+}

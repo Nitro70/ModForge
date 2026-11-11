@@ -1,0 +1,17 @@
+{
+  "criteria": {
+    "has_dirt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:dirt"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "function": "{{Namespace}}:hello"
+  }
+}

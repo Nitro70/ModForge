@@ -1,0 +1,57 @@
+{
+  "id": "mc-paper-plugin",
+  "name": "Paper plugin",
+  "engine": "Minecraft",
+  "loader": "Paper",
+  "language": "Java",
+  "summary": "A server plugin for Paper 26.x: Gradle, plugin.yml and a JavaPlugin class.",
+  "description": "A Gradle (Kotlin DSL) project that builds a plugin jar for a Paper server: plugin.yml, a main class that extends JavaPlugin and, as options, a command and an event listener. Players need nothing installed. Needs JDK 25, which Gradle can download by itself.",
+  "docs": "https://docs.papermc.io/paper/dev/project-setup/",
+  "order": 30,
+  "eol": "lf",
+  "match": { "family": "minecraft-java" },
+  "options": [
+    { "id": "ModName", "label": "Plugin name", "type": "text", "default": "My Plugin", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]+", "patternHelp": "start with a letter, at least two characters; letters, digits, spaces, - and _ only",
+      "help": "The name in plugin.yml is this without spaces (My Plugin becomes MyPlugin)." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the Java package (com.author.pluginname) and plugin.yml." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A Paper plugin.",
+      "pattern": "[^'\"\\\\$]*", "patternHelp": "no quotes, backslashes or $",
+      "help": "One line shown by /version." },
+    { "id": "PaperVersion", "label": "Paper version", "type": "text", "default": "26.3", "required": true, "group": "Versions",
+      "pattern": "\\d\\d\\.\\d+(\\.\\d+)?", "patternHelp": "a 26.x version, like 26.3 or 26.1.2",
+      "help": "The Minecraft version of the server. Sets the paper-api dependency and api-version. Only 26.1 and newer: older versions name the dependency differently." },
+    { "id": "GradleVersion", "label": "Gradle version", "type": "text", "default": "9.8.2", "required": true, "group": "Versions",
+      "pattern": "\\d+\\.\\d+(\\.\\d+)?", "patternHelp": "like 9.8.2",
+      "help": "The Gradle that the wrapper downloads. Java 25 needs Gradle 9.1 or newer." },
+    { "id": "Command", "label": "Example command", "type": "bool", "default": true, "group": "Features",
+      "help": "A slash command named after the plugin." },
+    { "id": "Listener", "label": "Example event listener", "type": "bool", "default": true, "group": "Features",
+      "help": "A class that greets players when they join." }
+  ],
+  "derived": {
+    "PluginName": "{{ModName|pascal}}",
+    "CommandName": "{{ModName|flat}}",
+    "ModFlat": "{{ModName|flat}}",
+    "AuthorFlat": "{{Author|flat}}",
+    "Package": "com.{{Author|flat}}.{{ModName|flat}}",
+    "ClassName": "{{ModName|pascal}}"
+  },
+  "folder": "{{PluginName}}",
+  "main": "src/main/java/com/{{AuthorFlat}}/{{ModFlat}}/{{ClassName}}.java",
+  "when": {
+    "*HelloCommand.java": "Command",
+    "*JoinListener.java": "Listener"
+  },
+  "next": [
+    "Open the folder in IntelliJ IDEA and let it import the Gradle project. From a terminal instead, run once: gradle wrapper",
+    "Build the jar: gradlew build. It lands in build\\libs.",
+    "Copy the jar into the plugins folder of a Paper server and restart the server (do not use /reload).",
+    "Look for the plugin's enabled line in the server console, or run /plugins.",
+    "Your code starts in onEnable in the main class."
+  ]
+}

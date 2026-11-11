@@ -1,0 +1,51 @@
+{
+  "id": "beamng-mod",
+  "name": "BeamNG.drive mod",
+  "engine": "Game specific",
+  "loader": "BeamNG mods folder",
+  "language": "Lua",
+  "summary": "A BeamNG.drive mod as an unpacked folder plus a script that packs it into a mods zip: Lua extension, UI app or jbeam part.",
+  "description": "BeamNG loads a mod from a zip in the user folder's mods directory, and the zip must mirror the game's own folder tree. Pick what the mod is and the files land on the exact paths the game scans. pack.ps1 builds the zip with forward-slash entries.",
+  "docs": "https://documentation.beamng.com/modding/",
+  "order": 10,
+  "match": { "family": "beamng" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the zip and folder names so they do not clash with other mods." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Kind", "label": "Mod kind", "type": "choice", "default": "ge",
+      "choices": [
+        { "value": "ge", "label": "Game engine Lua extension (one copy for the whole game)" },
+        { "value": "vehicle", "label": "Vehicle Lua extension (runs inside every vehicle)" },
+        { "value": "ui", "label": "UI app (a widget on the driving screen)" },
+        { "value": "part", "label": "Vehicle part (jbeam)" }
+      ],
+      "help": "Each kind lives on a different path inside the zip. A wrong path means the game never reads the file." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|snake}}_{{Author|snake}}",
+    "ExtName": "{{ModName|camel}}",
+    "AppName": "{{ModName|pascal}}",
+    "AppDirective": "{{ModName|kebab|camel}}",
+    "AppElement": "{{ModName|kebab}}"
+  },
+  "folder": "{{ModId}}",
+  "main": "{{#if Kind == ge}}mod/lua/ge/extensions/{{ExtName}}.lua{{#elif Kind == vehicle}}mod/lua/vehicle/extensions/auto/{{ExtName}}.lua{{#elif Kind == ui}}mod/ui/modules/apps/{{AppName}}/app.js{{#else}}mod/vehicles/common/{{ModId}}/{{ModId}}.jbeam{{/if}}",
+  "when": {
+    "mod/lua/ge": "Kind == ge",
+    "mod/scripts": "Kind == ge",
+    "mod/lua/vehicle": "Kind == vehicle",
+    "mod/ui": "Kind == ui",
+    "mod/vehicles": "Kind == part"
+  },
+  "next": [
+    "Close BeamNG.drive, then run: powershell -ExecutionPolicy Bypass -File pack.ps1 -Install",
+    "That builds dist\\{{ModId}}.zip and copies it to the mods folder in the BeamNG user folder.",
+    "Start the game and read beamng.log in the user folder for lines that name the mod.",
+    "Your code is under mod\\. README.md says which file to edit and how to see it working."
+  ]
+}

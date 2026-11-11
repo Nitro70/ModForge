@@ -1,0 +1,41 @@
+{
+  "id": "balatro-steamodded",
+  "name": "Balatro Steamodded mod",
+  "engine": "Game specific",
+  "loader": "Steamodded",
+  "language": "Lua",
+  "summary": "A Balatro mod for Steamodded: the metadata json, a main Lua file and an example Joker.",
+  "description": "A folder for %APPDATA%\\Balatro\\Mods. Steamodded finds a mod by its metadata json, which names the Lua file to run. The example Joker uses the game's own card art, so the mod works before you have drawn anything.",
+  "docs": "https://docs.smods.dev/",
+  "order": 60,
+  "eol": "lf",
+  "match": { "family": "balatro" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the game's Mods menu." },
+    { "id": "Prefix", "label": "Prefix", "type": "text", "default": "mymod", "required": true,
+      "pattern": "[a-z][a-z0-9]{1,15}", "patternHelp": "2 to 16 lowercase letters and digits, starting with a letter",
+      "help": "Added to the key of everything the mod registers. Must differ from every other mod's prefix, and must never change once people have saves with the mod." },
+    { "id": "SteamoddedVersion", "label": "Oldest Steamodded version", "type": "text", "default": "1.*", "required": true,
+      "pattern": "[0-9][0-9A-Za-z.*~-]*", "patternHelp": "a version like 1.* or 26.1002.0",
+      "help": "The mod refuses to load on an older Steamodded. 1.* means any stable release." },
+    { "id": "Joker", "label": "Example Joker", "type": "bool", "default": true, "group": "Features",
+      "help": "A Joker that gives Mult, with its text and the steps for your own artwork." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|pascal}}"
+  },
+  "folder": "{{ModId}}",
+  "next": [
+    "Install the Lovely injector and Steamodded first if Balatro does not have them yet.",
+    "Copy the whole {{ModId}} folder to %APPDATA%\\Balatro\\Mods.",
+    "Start Balatro and open Mods on the main menu: {{ModName}} is in the list.",
+    "Your code is in main.lua. Hold M in game to restart it quickly after a change."
+  ]
+}

@@ -1,0 +1,4 @@
+displayName = {{ModName}}
+author = {{Author}}
+version = {{Version}}
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, README.md

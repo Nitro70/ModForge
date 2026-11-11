@@ -1,0 +1,12 @@
+{
+	"title": "{{ModName|json}}",
+	"type": "{{AddonType}}",
+	"tags": [ "fun" ],
+	"ignore": [
+		"*.psd",
+		"*.vcproj",
+		"*.svn*",
+		"*.md",
+		".git*"
+	]
+}

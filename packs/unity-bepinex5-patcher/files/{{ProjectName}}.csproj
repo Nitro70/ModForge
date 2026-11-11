@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- net35 on purpose: the preloader runs before Unity starts, and a net35 dll loads in every Unity Mono game. -->
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyName>{{ProjectName}}</AssemblyName>
+    <RootNamespace>{{Namespace}}</RootNamespace>
+    <Version>{{Version}}</Version>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
+    <NoWarn>$(NoWarn);NU1701;MSB3277</NoWarn>
+{{#if GamePath}}
+
+    <!-- The game this patcher is for. Change this one line if the game moves. -->
+    <GameDir>{{GamePath|xml}}</GameDir>
+{{/if}}
+  </PropertyGroup>
+
+  <!--
+    Do not add a reference to the game's dlls (Assembly-CSharp, UnityEngine) here. A patcher that references
+    the assembly it patches makes the runtime load that assembly early, and the patch is then never applied.
+    compile only: BepInEx and Mono.Cecil are already in the game's BepInEx\core, so they are not copied to bin.
+  -->
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Core" Version="5.*" IncludeAssets="compile" />
+    <PackageReference Include="Mono.Cecil" Version="{{CecilVersion}}" IncludeAssets="compile" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+{{#if Deploy && GamePath}}
+
+  <!-- After each build, copy the patcher into the game. Skipped when BepInEx is not installed there. -->
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="Exists('$(GameDir)\BepInEx')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\patchers" ContinueOnError="true" />
+    <Message Importance="high" Text="Copied $(TargetFileName) to $(GameDir)\BepInEx\patchers" />
+  </Target>
+{{/if}}
+
+</Project>

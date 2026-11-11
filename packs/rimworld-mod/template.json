@@ -1,0 +1,65 @@
+{
+  "id": "rimworld-mod",
+  "name": "RimWorld mod",
+  "engine": "Game specific",
+  "loader": "Built in",
+  "language": "C# / XML",
+  "summary": "A RimWorld mod folder: About.xml, an example Def, and an optional C# assembly with settings and Harmony.",
+  "description": "The folder RimWorld loads from its Mods directory, laid out the way the game expects. The C# project builds without the game installed (it compiles against the Krafs.Rimworld.Ref package) and writes its dll straight into the versioned Assemblies folder. Turn the code off for an XML-only mod.",
+  "docs": "https://rimworldwiki.com/wiki/Modding_Tutorials",
+  "order": 30,
+  "match": { "family": "rimworld" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the packageId, which must never change once people use the mod." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the game's mod list." },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with RimWorldWin64.exe. Not needed to build; used to copy the mod into the game." },
+    { "id": "GameVersion", "label": "RimWorld version", "type": "choice", "default": "1.6",
+      "choices": [
+        { "value": "1.6", "label": "1.6" },
+        { "value": "1.5", "label": "1.5" }
+      ],
+      "help": "Names the versioned folder and picks the matching reference assemblies." },
+    { "id": "Code", "label": "C# code", "type": "bool", "default": true, "group": "Features",
+      "help": "A Source folder with a project that builds the mod's dll. Turn off for an XML-only mod." },
+    { "id": "Settings", "label": "Mod settings", "type": "bool", "default": true, "group": "Features", "showWhen": "Code",
+      "help": "A Mod class with a settings window under Options, Mod settings." },
+    { "id": "Harmony", "label": "Harmony patches", "type": "bool", "default": true, "group": "Features", "showWhen": "Code",
+      "help": "An example of changing a game method. Makes the Harmony mod a required dependency." },
+    { "id": "HarmonyVersion", "label": "Harmony library version", "type": "text", "default": "2.3.6", "group": "Build",
+      "showWhen": "Code && Harmony", "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 2.3.6",
+      "help": "Version of the Lib.Harmony NuGet package to compile against. The dll itself comes from the Harmony mod." },
+    { "id": "Deploy", "label": "Copy the mod into the game after each build", "type": "bool", "default": true, "group": "Build",
+      "showWhen": "Code && GamePath" }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "ModClass": "{{ModName|pascal}}Mod",
+    "SettingsClass": "{{ModName|pascal}}Settings",
+    "PackageId": "{{Author|pascal}}.{{ModName|pascal}}"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "Source": "Code",
+    "Source/{{ModClass}}.cs": "Settings",
+    "Source/{{SettingsClass}}.cs": "Settings",
+    "Source/Patches": "Harmony",
+    "Languages": "Code && Settings",
+    ".gitignore.tpl": "Code"
+  },
+  "next": [
+    "The folder is the mod. It belongs in the Mods folder of the RimWorld install.",
+    "With code: build it with dotnet build Source -c Release (the dll lands in the versioned Assemblies folder).",
+    "Start RimWorld, open Mods, and enable the mod (and Harmony above it when the mod uses Harmony).",
+    "Turn on Development mode in Options and open the debug log to see the mod's line.",
+    "Defs are in Defs, code starts in Source\\Startup.cs."
+  ]
+}

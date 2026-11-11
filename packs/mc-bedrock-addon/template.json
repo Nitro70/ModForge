@@ -1,0 +1,57 @@
+{
+  "id": "mc-bedrock-addon",
+  "name": "Bedrock add-on",
+  "engine": "Minecraft",
+  "loader": "Vanilla",
+  "language": "JavaScript, JSON",
+  "summary": "An add-on for Minecraft: Bedrock Edition: a behavior pack and a resource pack that belong together, with an optional script.",
+  "description": "Two pack folders, each with its own manifest.json and fresh UUIDs, and the dependency that ties the behavior pack to the resource pack. As options: a script that uses @minecraft/server, a function, and a text change in the resource pack. Nothing to build.",
+  "docs": "https://learn.microsoft.com/en-us/minecraft/creator/documents/gettingstarted",
+  "order": 60,
+  "eol": "lf",
+  "match": { "family": "minecraft-bedrock" },
+  "options": [
+    { "id": "ModName", "label": "Add-on name", "type": "text", "default": "My Addon", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "A Bedrock add-on.",
+      "help": "Shown under the pack's name in the game." },
+    { "id": "MinEngineVersion", "label": "Minimum game version", "type": "text", "default": "1, 26, 60", "required": true, "group": "Versions",
+      "pattern": "\\d+, ?\\d+, ?\\d+", "patternHelp": "three numbers with commas, like 1, 26, 60",
+      "help": "The oldest Bedrock version the packs are written for, written the way manifest.json wants it. Bedrock 26.60 is 1, 26, 60." },
+    { "id": "ScriptApiVersion", "label": "@minecraft/server version", "type": "text", "default": "2.11.0", "required": true, "group": "Versions",
+      "showWhen": "Script", "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 2.11.0",
+      "help": "The scripting API the script asks for. 2.11.0 is the newest stable one and needs Bedrock 26.60. A game older than that does not run the script, so lower this for older games." },
+    { "id": "Script", "label": "Script", "type": "bool", "default": true, "group": "Features",
+      "help": "A scripts/main.js that greets each player who joins." },
+    { "id": "Function", "label": "Example function", "type": "bool", "default": true, "group": "Features",
+      "help": "A function you can run with /function." },
+    { "id": "Lang", "label": "Example text change", "type": "bool", "default": true, "group": "Features",
+      "help": "The resource pack renames the stick, so you can see it is active." },
+    { "id": "BpUuid", "type": "guid" },
+    { "id": "BpDataUuid", "type": "guid" },
+    { "id": "BpScriptUuid", "type": "guid" },
+    { "id": "RpUuid", "type": "guid" },
+    { "id": "RpModuleUuid", "type": "guid" }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "BpFolder": "{{ModName|pascal}}_BP",
+    "RpFolder": "{{ModName|pascal}}_RP",
+    "FunctionName": "{{ModName|snake}}_hello"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "*/scripts/*": "Script",
+    "*/functions/*": "Function",
+    "*/texts/*": "Lang"
+  },
+  "next": [
+    "Copy the _BP folder into development_behavior_packs and the _RP folder into development_resource_packs, both under %APPDATA%\\Minecraft Bedrock\\Users\\Shared\\games\\com.mojang",
+    "Start Minecraft, create a world, and under Behavior Packs activate the add-on. The resource pack is added with it.",
+    "Enter the world: the script greets you in chat.",
+    "After editing a script or function, run /reload in the world. After editing a manifest, restart the game.",
+    "Your code starts in scripts\\main.js in the behavior pack."
+  ]
+}

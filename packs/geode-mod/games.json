@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Geometry Dash", "appid": "322170", "family": "geometrydash",
+      "notes": "Mods are .geode packages loaded by the Geode loader from the geode\\mods folder in the game folder.",
+      "folders": ["Geometry Dash"] }
+  ]
+}

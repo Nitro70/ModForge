@@ -1,0 +1,45 @@
+{
+	"schemaVersion": 1,
+	"id": "{{ModId}}",
+	"version": "${version}",
+	"name": "{{ModName|json}}",
+	"description": "{{Description|json}}",
+	"authors": [
+		"{{Author|json}}"
+	],
+	"license": "All-Rights-Reserved",
+	"environment": "*",
+	"entrypoints": {
+{{#if Client}}
+		"main": [
+			"{{Package}}.{{ClassName}}"
+		],
+		"client": [
+			"{{Package}}.client.{{ClassName}}Client"
+		]
+{{#else}}
+		"main": [
+			"{{Package}}.{{ClassName}}"
+		]
+{{/if}}
+	},
+{{#if Mixin && Client}}
+	"mixins": [
+		"{{ModId}}.mixins.json",
+		{
+			"config": "{{ModId}}.client.mixins.json",
+			"environment": "client"
+		}
+	],
+{{#elif Mixin}}
+	"mixins": [
+		"{{ModId}}.mixins.json"
+	],
+{{/if}}
+	"depends": {
+		"fabricloader": ">={{LoaderVersion}}",
+		"minecraft": "~{{MinecraftVersion}}",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Garry's Mod", "appid": "4000", "family": "gmod",
+      "notes": "Addons are folders in garrysmod\\addons. File and folder names must be lowercase.",
+      "folders": ["GarrysMod"] }
+  ]
+}

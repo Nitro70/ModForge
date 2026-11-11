@@ -1,0 +1,34 @@
+{
+  "Format": "{{Format}}",
+{{#if Config}}
+  "ConfigSchema": {
+    "ChangeParsnip": {
+      "AllowValues": "true, false",
+      "Default": "true"
+    }
+  },
+{{/if}}
+  "Changes": [
+    {
+      "LogName": "Parsnip description",
+      "Action": "EditData",
+      "Target": "Data/Objects",
+      "Fields": {
+        "24": {
+{{#if I18n}}
+          "Description": "{{i18n: parsnip.description}}"
+{{#else}}
+          "Description": "A spring tuber, changed by {{ModName|json}}."
+{{/if}}
+        }
+{{#if Config}}
+      },
+      "When": {
+        "ChangeParsnip": "true"
+      }
+{{#else}}
+      }
+{{/if}}
+    }
+  ]
+}

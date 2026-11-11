@@ -1,0 +1,22 @@
+{
+  "domElement": "<{{AppElement}}></{{AppElement}}>",
+  "name": "{{ModName|json}}",
+  "types": [
+    "ui.apps.categories.vehicle_info"
+  ],
+  "description": "{{ModName|json}} by {{Author|json}}",
+  "css": {
+    "top": "0px",
+    "left": "0px",
+    "width": "220px",
+    "height": "80px",
+    "min-width": "160px",
+    "min-height": "60px"
+  },
+  "author": "{{Author|json}}",
+  "version": "{{Version}}",
+  "directive": "{{AppDirective}}",
+  "category": "Dashboard",
+  "isAuxiliary": false,
+  "interactive": "no"
+}

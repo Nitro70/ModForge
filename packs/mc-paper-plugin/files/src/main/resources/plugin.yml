@@ -1,0 +1,11 @@
+# The file the server reads to find the plugin. It must be at the root of the jar,
+# which is where the build puts everything from src/main/resources.
+name: {{PluginName}}
+# Filled in from build.gradle.kts when the jar is built.
+version: '${version}'
+# The full name of the class that extends JavaPlugin. Must match the package and class name exactly.
+main: {{Package}}.{{ClassName}}
+description: '{{Description}}'
+author: {{Author}}
+# The oldest server version the plugin loads on. Without this line it is treated as a legacy plugin.
+api-version: '{{PaperVersion}}'

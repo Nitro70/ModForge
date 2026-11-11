@@ -1,0 +1,17 @@
+{
+	"geode": "{{GeodeVersion}}",
+	"gd": {
+		"win": "{{GdVersion}}",
+		"android": "{{GdVersion}}",
+		"mac": "{{GdVersion}}",
+		"ios": "{{GdVersion}}"
+	},
+	"id": "{{ModId}}",
+	"name": "{{ModName|json}}",
+	"version": "v{{Version}}",
+	"developer": "{{Author|json}}",
+	"description": "{{Description|json}}",
+	"dependencies": {
+		"geode.node-ids": ">=v{{NodeIdsVersion}}"
+	}
+}

@@ -1,0 +1,62 @@
+{
+  "id": "godot-modloader",
+  "name": "Godot Mod Loader mod",
+  "engine": "Godot",
+  "loader": "Godot Mod Loader",
+  "language": "GDScript",
+  "summary": "A mod for Godot games that include the Godot Mod Loader (Brotato, Dome Keeper and others): manifest.json, mod_main.gd and a zip in the layout the loader expects.",
+  "description": "The mods-unpacked/Author-ModName folder with a valid manifest.json and mod_main.gd, plus a script that builds the zip players drop into the game's mods folder. The folder name, the manifest and the zip's inner layout must all agree; this project makes them agree.",
+  "docs": "https://wiki.godotmodding.com/guides/modding/mod_structure/",
+  "order": 10,
+  "eol": "lf",
+  "match": { "engine": "godot" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "MyMod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9_]{2,}", "patternHelp": "at least 3 characters; letters, digits and _ only, no spaces (a Godot Mod Loader rule)",
+      "help": "Second half of the mod's ID, Author-ModName. The ID is also the folder name and must never change once people use the mod." },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9_]{2,}", "patternHelp": "at least 3 characters; letters, digits and _ only, no spaces (a Godot Mod Loader rule)",
+      "help": "The mod's namespace: first half of the mod's ID." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)", "patternHelp": "three numbers without leading zeros, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod." },
+    { "id": "Website", "label": "Website", "type": "text", "default": "",
+      "help": "A link to the mod's page or repository. May stay empty." },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with the game's exe. build-zip.bat copies the zip into its mods folder. Leave empty to copy it by hand." },
+    { "id": "Godot", "label": "Godot version of the game", "type": "choice", "default": "4", "group": "Build",
+      "choices": [
+        { "value": "4", "label": "Godot 4 (Mod Loader 7)" },
+        { "value": "3", "label": "Godot 3 (Mod Loader 6)" }
+      ],
+      "help": "GDScript differs between the two: mod_main.gd and the extension example are written for the one picked." },
+    { "id": "ModLoaderVersion4", "label": "Mod Loader version", "type": "text", "default": "7.0.1", "required": true, "group": "Build",
+      "showWhen": "Godot == 4", "pattern": "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)", "patternHelp": "three numbers, like 7.0.1",
+      "help": "The Godot Mod Loader version the mod is written for (compatible_mod_loader_version)." },
+    { "id": "ModLoaderVersion3", "label": "Mod Loader version", "type": "text", "default": "6.3.0", "required": true, "group": "Build",
+      "showWhen": "Godot == 3", "pattern": "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)", "patternHelp": "three numbers, like 6.3.0",
+      "help": "The Godot Mod Loader version the mod is written for (compatible_mod_loader_version)." },
+    { "id": "GameVersion", "label": "Game version", "type": "text", "default": "1.0.0", "required": true, "group": "Build",
+      "pattern": "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)", "patternHelp": "three numbers, like 1.0.0",
+      "help": "The game version the mod is made for (compatible_game_version). Mod Loader 7 refuses a mod made for an older major version than the game reports." },
+    { "id": "Extension", "label": "Script extension example", "type": "bool", "default": false, "group": "Features",
+      "help": "An extensions folder with a script that extends one of the game's scripts, and the line that installs it." },
+    { "id": "VanillaScript", "label": "Game script to extend", "type": "text", "default": "res://main.gd", "required": true, "group": "Features",
+      "showWhen": "Extension", "pattern": "res://[A-Za-z0-9_./-]+\\.gd", "patternHelp": "a res:// path to a .gd file of the game",
+      "help": "The res:// path of a script in the game. The loader logs an error if it does not exist." }
+  ],
+  "derived": {
+    "ModId": "{{Author}}-{{ModName}}",
+    "ConstPrefix": "{{Author|upper}}_{{ModName|upper}}"
+  },
+  "folder": "{{ModId}}",
+  "when": {
+    "mods-unpacked/{{ModId}}/extensions": "Extension"
+  },
+  "next": [
+    "Run build-zip.bat: it writes dist\\<Author>-<ModName>-<version>.zip and, with a game folder set, copies it into the game's mods folder.",
+    "Start the game and look for the mod's \"Ready!\" line in the game's log (user://logs/modloader.log).",
+    "Your code starts in mods-unpacked\\<Author>-<ModName>\\mod_main.gd.",
+    "To work in the Godot editor, copy the mods-unpacked folder into the decompiled game project."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": "stardew-smapi",
+  "name": "SMAPI mod (C#)",
+  "engine": "Game specific",
+  "loader": "SMAPI",
+  "language": "C#",
+  "summary": "A C# mod for Stardew Valley 1.6 that SMAPI loads from the Mods folder.",
+  "description": "A .NET 6 class library built with the official SMAPI mod build package. The package references the game and SMAPI, copies the finished mod into the game's Mods folder after every build and makes a release zip. Needs Stardew Valley with SMAPI installed to build.",
+  "docs": "https://stardewvalleywiki.com/Modding:Modder_Guide/Get_Started",
+  "order": 10,
+  "match": { "family": "stardew" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only",
+      "help": "Goes into the mod's UniqueID, which must never change once people use the mod." },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 1.0.0" },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the SMAPI console and on mod sites." },
+    { "id": "GamePath", "label": "Game folder", "type": "folder", "from": "GamePath",
+      "help": "The folder with Stardew Valley.exe. Leave empty and the build finds a standard Steam or GOG install by itself." },
+    { "id": "Config", "label": "Config file", "type": "bool", "default": true, "group": "Features",
+      "help": "A ModConfig class saved as config.json in the mod's folder." },
+    { "id": "Gmcm", "label": "Generic Mod Config Menu page", "type": "bool", "default": true, "group": "Features",
+      "showWhen": "Config",
+      "help": "Adds the settings to the in-game menu when the player has Generic Mod Config Menu. It stays optional." },
+    { "id": "I18n", "label": "Translations", "type": "bool", "default": true, "group": "Features",
+      "help": "An i18n folder with default.json, read through helper.Translation." },
+    { "id": "Harmony", "label": "Harmony patch", "type": "bool", "default": false, "group": "Features",
+      "help": "A Patches folder with an example of changing a game method. Only for what SMAPI's events cannot do." },
+    { "id": "MinApi", "label": "Minimum SMAPI version", "type": "text", "default": "4.0.0", "required": true, "group": "Build",
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 4.0.0",
+      "help": "SMAPI refuses to load the mod on anything older. 4.0.0 is the first version for Stardew Valley 1.6." },
+    { "id": "BuildPackage", "label": "Mod build package version", "type": "text", "default": "4.4.0", "required": true, "group": "Build",
+      "pattern": "\\d+\\.\\d+\\.\\d+", "patternHelp": "three numbers, like 4.4.0",
+      "help": "Version of the Pathoschild.Stardew.ModBuildConfig NuGet package." }
+  ],
+  "derived": {
+    "ProjectName": "{{ModName|pascal}}",
+    "Namespace": "{{ModName|pascal}}",
+    "UniqueId": "{{Author|pascal}}.{{ModName|pascal}}"
+  },
+  "folder": "{{ProjectName}}",
+  "when": {
+    "ModConfig.cs": "Config",
+    "IGenericModConfigMenuApi.cs": "Config && Gmcm",
+    "i18n": "I18n",
+    "Patches": "Harmony"
+  },
+  "next": [
+    "Install SMAPI into Stardew Valley first if it is not there yet (smapi.io).",
+    "Open the folder in Visual Studio, Rider or VS Code.",
+    "Build it: dotnet build",
+    "The build copies the mod to Mods\\{{ProjectName}} in the game folder and puts a release zip in bin.",
+    "Start the game through SMAPI and look for the mod's line in the SMAPI console.",
+    "Your code starts in ModEntry.cs, in Entry."
+  ]
+}

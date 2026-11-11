@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>{{Tfm}}</TargetFramework>
+    <AssemblyName>{{ProjectName}}</AssemblyName>
+    <RootNamespace>{{Namespace}}</RootNamespace>
+    <Version>{{Version}}</Version>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
+    <!-- BepInEx 5 and Unity are built for the old .NET Framework; these warnings are expected and harmless. -->
+    <NoWarn>$(NoWarn);NU1701;MSB3277</NoWarn>
+{{#if GamePath}}
+
+    <!-- The game this mod is for. Change this one line if the game moves. -->
+    <GameDir>{{GamePath|xml}}</GameDir>
+{{#if GameDataDir}}
+    <ManagedDir>$(GameDir)\{{GameDataDir|xml}}\Managed</ManagedDir>
+{{#else}}
+    <ManagedDir>$(GameDir)\*_Data\Managed</ManagedDir>
+{{/if}}
+{{/if}}
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.*" />
+{{#if !GamePath}}
+    <PackageReference Include="UnityEngine.Modules" Version="{{UnityVersion}}" IncludeAssets="compile" />
+{{/if}}
+{{#if Publicize && GamePath}}
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.*" PrivateAssets="all" />
+{{/if}}
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+{{#if GamePath}}
+  <!-- The game's own assemblies. Private=false: they are already in the game, so they are not copied to bin. -->
+  <ItemGroup>
+    <Reference Include="$(ManagedDir)\UnityEngine.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.*.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.*.dll" Private="false" />
+{{#if Publicize}}
+    <Reference Include="$(ManagedDir)\Assembly-CSharp.dll" Private="false" Publicize="true" />
+    <Reference Include="$(ManagedDir)\Assembly-CSharp-firstpass.dll" Private="false" Condition="Exists('$(ManagedDir)\Assembly-CSharp-firstpass.dll')" />
+{{#else}}
+    <Reference Include="$(ManagedDir)\Assembly-CSharp*.dll" Private="false" />
+{{/if}}
+  </ItemGroup>
+{{#else}}
+  <!-- No game folder was set. Copy the game's Assembly-CSharp.dll (from <Game>_Data\Managed) into lib\ to use game classes. -->
+  <ItemGroup>
+    <Reference Include="lib\*.dll" Private="false" />
+  </ItemGroup>
+{{/if}}
+{{#if Deploy && GamePath}}
+
+  <!-- After each build, copy the plugin into the game. Skipped when BepInEx is not installed there. -->
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="Exists('$(GameDir)\BepInEx')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\plugins\$(AssemblyName)" ContinueOnError="true" />
+    <Message Importance="high" Text="Copied $(TargetFileName) to $(GameDir)\BepInEx\plugins\$(AssemblyName)" />
+  </Target>
+{{/if}}
+
+</Project>

@@ -1,0 +1,7 @@
+{
+  "games": [
+    { "name": "Balatro", "appid": "2379780", "family": "balatro",
+      "notes": "Mods need the Lovely injector and Steamodded, and live in %APPDATA%\\Balatro\\Mods, not in the game folder.",
+      "folders": ["Balatro"] }
+  ]
+}

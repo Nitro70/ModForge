@@ -1,0 +1,41 @@
+{
+  "id": "factorio-mod",
+  "name": "Factorio mod",
+  "engine": "Game specific",
+  "loader": "Factorio mods folder",
+  "language": "Lua",
+  "summary": "A Factorio mod folder named name_version: info.json, settings, data and control stages, a locale file, with an optional item and recipe.",
+  "description": "Factorio reads a mod in three stages: settings.lua, then data.lua (prototypes), then control.lua (runtime events). The folder name must be the mod's internal name plus its version, and both must match info.json. This project is that folder.",
+  "docs": "https://lua-api.factorio.com/latest/",
+  "order": 50,
+  "eol": "lf",
+  "match": { "family": "factorio" },
+  "options": [
+    { "id": "ModName", "label": "Mod name", "type": "text", "default": "My Mod", "required": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]{3,40}", "patternHelp": "4 to 41 characters, start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Author", "label": "Author", "type": "text", "default": "yourname", "required": true, "remember": true,
+      "pattern": "[A-Za-z][A-Za-z0-9 _-]*", "patternHelp": "start with a letter; letters, digits, spaces, - and _ only" },
+    { "id": "Version", "label": "Version", "type": "text", "default": "1.0.0", "required": true,
+      "pattern": "\\d{1,5}\\.\\d{1,5}\\.\\d{1,5}", "patternHelp": "three numbers, like 1.0.0",
+      "help": "Part of the folder name. Change it in info.json and you must rename the folder too." },
+    { "id": "Description", "label": "Description", "type": "text", "default": "One or two sentences about the mod.",
+      "help": "Shown in the game's mod list." },
+    { "id": "FactorioVersion", "label": "Factorio version", "type": "text", "default": "2.0", "required": true,
+      "pattern": "2\\.\\d+", "patternHelp": "2.0 or a later 2.x: the files use the 2.0 recipe format and the storage table",
+      "help": "The game version the mod is for. The game refuses a mod made for another one." },
+    { "id": "Item", "label": "Item and recipe", "type": "bool", "default": true, "group": "Features",
+      "help": "A new item with a recipe, added in data.lua, with its name in the locale file." },
+    { "id": "Events", "label": "Event examples", "type": "bool", "default": true, "group": "Features",
+      "help": "control.lua handlers for a built entity and a timer, on top of the welcome message." }
+  ],
+  "derived": {
+    "ModId": "{{ModName|kebab}}"
+  },
+  "folder": "{{ModId}}_{{Version}}",
+  "next": [
+    "Copy the whole {{ModId}}_{{Version}} folder to %APPDATA%\\Factorio\\mods.",
+    "Start Factorio. The mod is listed under Mods on the main menu.",
+    "Start a new game: a welcome line appears in the chat.",
+    "Prototypes go into data.lua, runtime code into control.lua. Keep the folder name and info.json in step."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "games": [
+    { "name": "Buckshot Roulette", "appid": "2835570", "engine": "godot",
+      "notes": "The game's files are in a sub-folder of the install, and the .pck is inside the exe." },
+    { "name": "Brotato", "appid": "1942280", "engine": "godot",
+      "notes": "Has the Godot Mod Loader built in. Players get mods from the Steam Workshop." },
+    { "name": "Dome Keeper", "appid": "1637320", "engine": "godot",
+      "notes": "Has the Godot Mod Loader built in. Players get mods from the Steam Workshop." }
+  ]
+}

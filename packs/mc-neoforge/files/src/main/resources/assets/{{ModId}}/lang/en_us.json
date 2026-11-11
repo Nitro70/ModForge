@@ -1,0 +1,6 @@
+{
+{{#if Item}}
+  "item.{{ModId}}.example_item": "Example Item",
+{{/if}}
+  "{{ModId}}.greeting": "Hello from {{ModName|json}}!"
+}

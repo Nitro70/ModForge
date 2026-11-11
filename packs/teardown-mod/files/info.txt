@@ -1,0 +1,11 @@
+en_name = {{ModName}}
+author = {{Author}}
+en_description = {{Description}}
+{{#if Kind == tool}}
+tags = Tool
+{{#elif Kind == spawn}}
+tags = Spawn
+{{#else}}
+tags = Gameplay
+{{/if}}
+version = 2

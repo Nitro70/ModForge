@@ -1,0 +1,53 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+repositories {
+	// Add repositories here only when you depend on other mods.
+	// Loom already adds the ones Minecraft and Fabric come from.
+}
+
+loom {
+	// Two source sets: src/main for code that also runs on a dedicated server,
+	// src/client for code that touches net.minecraft.client.
+	splitEnvironmentSourceSets()
+
+	mods {
+		"{{ModId}}" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+dependencies {
+	// The versions are in gradle.properties.
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+	// Minecraft 26.1 and newer is not obfuscated. There is no mappings line here,
+	// and the loader and API use plain "implementation" (modImplementation is gone).
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	// Puts the version from gradle.properties into fabric.mod.json.
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	// Also builds a -sources jar. Remove the line if you do not want one.
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}

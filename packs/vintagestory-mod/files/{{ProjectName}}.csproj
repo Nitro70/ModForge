@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Must match the .NET version the game runs on: net10.0 for game 1.22 and newer, net8.0 for 1.21. -->
+    <TargetFramework>{{Tfm}}</TargetFramework>
+    <AssemblyName>{{ProjectName}}</AssemblyName>
+    <RootNamespace>{{Namespace}}</RootNamespace>
+    <Version>{{Version}}</Version>
+
+    <!-- Everything the game needs lands in one folder: the dll, modinfo.json and assets. -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\$(Configuration)\Mods\mod</OutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+{{#if GamePath}}
+
+    <!-- The folder with Vintagestory.exe. Change this one line if the game moves. It replaces the VINTAGE_STORY environment variable. -->
+    <VINTAGE_STORY>{{GamePath|xml}}</VINTAGE_STORY>
+{{/if}}
+  </PropertyGroup>
+
+  <!-- The game's own assemblies. Private=false: they are already in the game, so they are not copied into the mod. -->
+  <ItemGroup>
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VINTAGE_STORY)/VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VINTAGE_STORY)/Mods/VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSEssentials">
+      <HintPath>$(VINTAGE_STORY)/Mods/VSEssentials.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSCreativeMod">
+      <HintPath>$(VINTAGE_STORY)/Mods/VSCreativeMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(VINTAGE_STORY)/Lib/Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- modinfo.json and the assets folder travel with the dll. -->
+  <ItemGroup>
+    <Content Include="assets\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="modinfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Stops with a clear message when the game's dlls cannot be found. -->
+  <Target Name="CheckGameFolder" BeforeTargets="BeforeBuild" Condition="!Exists('$(VINTAGE_STORY)/VintagestoryAPI.dll')">
+    <Error Text="VintagestoryAPI.dll was not found in the game folder '$(VINTAGE_STORY)'. Set the VINTAGE_STORY environment variable to the folder with Vintagestory.exe (then restart the editor or terminal), or add a VINTAGE_STORY property with that folder to the first PropertyGroup of this project." />
+  </Target>
+
+  <!-- After each build, zip the mod folder. The zip is what goes into the game's Mods folder and onto the mod database. -->
+  <Target Name="ZipMod" AfterTargets="Build">
+    <ZipDirectory SourceDirectory="$(OutDir)" DestinationFile="$(MSBuildProjectDirectory)\bin\$(Configuration)\{{ModId}}_$(Version).zip" Overwrite="true" />
+    <Message Importance="high" Text="Mod zip: bin\$(Configuration)\{{ModId}}_$(Version).zip" />
+  </Target>
+
+</Project>

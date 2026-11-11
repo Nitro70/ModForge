@@ -1,0 +1,10 @@
+{
+  "games": [
+    { "name": "Terraria", "appid": "105600", "family": "terraria", "loader": "tModLoader",
+      "notes": "Mods need tModLoader, a separate free app on Steam that runs beside Terraria.",
+      "folders": ["Terraria"] },
+    { "name": "tModLoader", "appid": "1281930", "family": "terraria", "loader": "tModLoader",
+      "notes": "Mod sources live in Documents\\My Games\\Terraria\\tModLoader\\ModSources, not in the install folder.",
+      "folders": ["tModLoader"] }
+  ]
+}

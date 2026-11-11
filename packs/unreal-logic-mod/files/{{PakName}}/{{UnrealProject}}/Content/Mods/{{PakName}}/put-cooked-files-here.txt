@@ -1,0 +1,14 @@
+Put the cooked ModActor files in this folder:
+
+    ModActor.uasset
+    ModActor.uexp
+
+and any other cooked assets the mod uses that live in the same Content\Mods\{{PakName}} folder of your editor project
+(widgets, textures, other Blueprints), keeping their sub-folders.
+
+They come from your editor project, after cooking:
+
+    <EditorProject>\Saved\Cooked\WindowsNoEditor\<EditorProject>\Content\Mods\{{PakName}}\      (UE4)
+    <EditorProject>\Saved\Cooked\Windows\<EditorProject>\Content\Mods\{{PakName}}\              (UE5)
+
+pack.bat leaves this text file out of the pak.

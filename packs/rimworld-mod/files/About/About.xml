@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <!-- Identifies the mod to the game and to other mods. Letters, digits and one or more periods. Never change it after release. -->
+  <packageId>{{PackageId}}</packageId>
+  <name>{{ModName|xml}}</name>
+  <author>{{Author|xml}}</author>
+  <modVersion>{{Version}}</modVersion>
+  <description>{{Description|xml}}</description>
+
+  <!-- The game versions the mod is made for. Other versions show a warning in the mod list. -->
+  <supportedVersions>
+    <li>{{GameVersion}}</li>
+  </supportedVersions>
+{{#if Code && Harmony}}
+
+  <!-- The mod's code needs the Harmony mod. The game offers to get it when it is missing. -->
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+  </modDependencies>
+
+  <!-- Harmony must be above this mod in the load order. -->
+  <loadAfter>
+    <li>brrainz.harmony</li>
+  </loadAfter>
+{{/if}}
+</ModMetaData>
